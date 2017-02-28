@@ -47,6 +47,7 @@ public class Player {
             this.ship.getX() = this.ship.getX() + this.ship.getxSpeed();
         }
         
+        
         // wraping logic
         int maxX = 500;//maximum width of screen/panel
         int maxY = 500;//maximum length of screen/panel
