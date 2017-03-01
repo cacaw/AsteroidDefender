@@ -17,12 +17,34 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 public class GUI {
 
-	private Font font = new Font("TimesNewRoman", 4, 45);
+	private Font font = new Font("Times New Roman", Font.PLAIN, 55);
 	private JFrame frame;
 	private JPanel mainMenu, mainMenuButtons, firstLevel, secondLevel, thirdLevel;
 	private JButton start, quit, viewControls, selectLevel;
+	private int userConfirmationInput;
 
 	public GUI() throws IOException {
 		initComponents();
@@ -33,6 +55,7 @@ public class GUI {
 		createLevels();
 		initJButtons();
 		createLayout();
+		buildLevel();
 		frame.pack();
 		frame.setVisible(true);
 		JOptionPane.showMessageDialog(this.frame, "Welcome to the Asteroid Dodger CSC150 application!");
@@ -67,13 +90,20 @@ public class GUI {
 		mainMenuButtons.setLayout(new BoxLayout(mainMenuButtons, BoxLayout.Y_AXIS));
 
 		mainMenuButtons.add(start);
+		start.setAlignmentX(Component.CENTER_ALIGNMENT);
+		start.setFont(font);
 		mainMenuButtons.add(Box.createRigidArea(new Dimension(0, 50)));
 		mainMenuButtons.add(selectLevel);
+		selectLevel.setFont(font);
+		selectLevel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		mainMenuButtons.add(Box.createRigidArea(new Dimension(0, 50)));
 		mainMenuButtons.add(viewControls);
+		viewControls.setFont(font);
+		viewControls.setAlignmentX(Component.CENTER_ALIGNMENT);
 		mainMenuButtons.add(Box.createRigidArea(new Dimension(0, 50)));
 		mainMenuButtons.add(quit);
-
+		quit.setFont(font);
+		quit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		mainMenu.add(mainMenuButtons, c);
 		frame.getContentPane().add(mainMenu);
 		mainMenu.repaint();
@@ -120,8 +150,37 @@ public class GUI {
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
+	private void buildLevel() {
+		firstLevel.setBackground(Color.green);
+		JButton test = new JButton("Return to Main Menu");
+		firstLevel.add(test);
+		test.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				userConfirmationInput = JOptionPane.showConfirmDialog(null, "Select desired option", "Are you certain?",
+						JOptionPane.YES_NO_CANCEL_OPTION);
+				if (userConfirmationInput == 0) {
+					test(evt);
+				}
+
+			}
+		});
+
+	}
+
 	private void startButtonEvent(ActionEvent evt) {
-		// firstLevel.setVisible(true);
+		userConfirmationInput = JOptionPane.showConfirmDialog(null, "Select desired option", "Are you certain?",
+				JOptionPane.YES_NO_CANCEL_OPTION);
+		if (userConfirmationInput == 0) {
+			firstLevel.setVisible(true);
+			frame.getContentPane().add(firstLevel);
+			mainMenu.setVisible(false);
+		}
+
+	}
+
+	private void test(ActionEvent evt) {
+		firstLevel.setVisible(false);
+		mainMenu.setVisible(true);
 	}
 
 	private void selectLevelButtonEvent(ActionEvent evt) {
