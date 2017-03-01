@@ -1,9 +1,11 @@
 package Model;
 
+import java.awt.*;
+
 /**
  * Created by Patricki on 2/25/2017.
  */
-public class Ship {
+public class Ship implements Collidable{
     
     //declare size of ship
     private int height = 2;
@@ -81,5 +83,10 @@ public class Ship {
     
     public void setySpeed(int ySpeed) {
         this.ySpeed = ySpeed;
+    }
+    
+    @Override
+    public Rectangle getBounds() {
+        return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
 }
