@@ -1,9 +1,11 @@
 package Model;
 
+import java.awt.*;
+
 /**
  * Created by Patricki on 2/25/2017.
  */
-public class Shield {
+public class Shield implements Collidable{
     
     Ship ship;
     
@@ -40,5 +42,10 @@ public class Shield {
     
     public void setY(int y) {
         Y = y;
+    }
+    
+    @Override
+    public Rectangle getBounds() {
+        return new Rectangle(getX(), getY(), width, hight);
     }
 }
