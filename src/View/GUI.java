@@ -1,22 +1,3 @@
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -26,6 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -38,13 +21,14 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class GUI {
+public class GUI implements KeyListener {
 
 	private Font font = new Font("Times New Roman", Font.PLAIN, 55);
 	private JFrame frame;
-	private JPanel mainMenu, mainMenuButtons, firstLevel, secondLevel, thirdLevel;
+	private JPanel mainMenu, mainMenuButtons, firstLevel, firstLevelButtons;
 	private JButton start, quit, viewControls, selectLevel;
 	private int userConfirmationInput;
+	private GridBagConstraints c;
 
 	public GUI() throws IOException {
 		initComponents();
@@ -52,25 +36,16 @@ public class GUI {
 
 	private void initComponents() throws IOException {
 		buildFrame();
-		createLevels();
+		buildLevel();
 		initJButtons();
 		createLayout();
-		buildLevel();
 		frame.pack();
 		frame.setVisible(true);
 		JOptionPane.showMessageDialog(this.frame, "Welcome to the Asteroid Dodger CSC150 application!");
 
 	}
 
-	private void createLevels() {
-		firstLevel = new JPanel();
-		// utilize one panel - rebuilding / have class for it
-		secondLevel = new JPanel();
-		thirdLevel = new JPanel();
-	}
-
 	private void createLayout() throws IOException {
-		GridBagConstraints c;
 		c = new GridBagConstraints();
 		BufferedImage image = ImageIO.read(new File("MainMenu.jpg"));
 
@@ -91,18 +66,14 @@ public class GUI {
 
 		mainMenuButtons.add(start);
 		start.setAlignmentX(Component.CENTER_ALIGNMENT);
-		start.setFont(font);
 		mainMenuButtons.add(Box.createRigidArea(new Dimension(0, 50)));
 		mainMenuButtons.add(selectLevel);
-		selectLevel.setFont(font);
 		selectLevel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		mainMenuButtons.add(Box.createRigidArea(new Dimension(0, 50)));
 		mainMenuButtons.add(viewControls);
-		viewControls.setFont(font);
 		viewControls.setAlignmentX(Component.CENTER_ALIGNMENT);
 		mainMenuButtons.add(Box.createRigidArea(new Dimension(0, 50)));
 		mainMenuButtons.add(quit);
-		quit.setFont(font);
 		quit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		mainMenu.add(mainMenuButtons, c);
 		frame.getContentPane().add(mainMenu);
@@ -151,18 +122,57 @@ public class GUI {
 	}
 
 	private void buildLevel() {
-		firstLevel.setBackground(Color.green);
-		JButton test = new JButton("Return to Main Menu");
-		firstLevel.add(test);
-		test.addActionListener(new ActionListener() {
+		firstLevel = new JPanel(new GridBagLayout());
+		c = new GridBagConstraints();
+
+		firstLevelButtons = new JPanel();
+		JButton mainMenu = new JButton("Main Menu");
+		JButton quitLevel = new JButton("Quit Level");
+		// utilize one panel - rebuilding / have class for it
+
+		firstLevel.setBackground(Color.darkGray);
+
+		firstLevelButtons.setOpaque(false);
+		firstLevelButtons.setLayout(new BoxLayout(firstLevelButtons, BoxLayout.Y_AXIS));
+
+		mainMenu.setAlignmentX(Component.CENTER_ALIGNMENT);
+		mainMenu.setFont(font);
+
+		quitLevel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		quitLevel.setFont(font);
+
+		firstLevelButtons.add(mainMenu, c);
+		firstLevelButtons.add(Box.createRigidArea(new Dimension(0, 50)));
+		firstLevelButtons.add(quitLevel, c);
+
+		firstLevel.add(firstLevelButtons);
+
+		// implement keyPress + key release action listeners
+		// give quitLevel an option to return to level select screen
+		mainMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				userConfirmationInput = JOptionPane.showConfirmDialog(null, "Select desired option", "Are you certain?",
-						JOptionPane.YES_NO_CANCEL_OPTION);
+				userConfirmationInput = JOptionPane.showConfirmDialog(null, "Do you want to return to main menu?",
+						"Select desired option?", JOptionPane.YES_NO_CANCEL_OPTION);
 				if (userConfirmationInput == 0) {
-					test(evt);
+					mainMenuReturn(evt);
 				}
 
 			}
+		});
+
+		quitLevel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				userConfirmationInput = JOptionPane.showConfirmDialog(null,
+						"Do you want to return to level select screen?", "Select desired option",
+						JOptionPane.YES_NO_CANCEL_OPTION);
+				if (userConfirmationInput == 0) {
+					levelSelectReturn(e);
+				}
+
+			}
+
 		});
 
 	}
@@ -178,9 +188,15 @@ public class GUI {
 
 	}
 
-	private void test(ActionEvent evt) {
+	private void mainMenuReturn(ActionEvent evt) {
 		firstLevel.setVisible(false);
 		mainMenu.setVisible(true);
+	}
+
+	private void levelSelectReturn(ActionEvent e) {
+		// firstLevel.setVisible(false);
+		// level select screen visible true
+
 	}
 
 	private void selectLevelButtonEvent(ActionEvent evt) {
@@ -200,6 +216,27 @@ public class GUI {
 
 	public static void main(String[] args) throws IOException {
 		new GUI();
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_P) {
+			// make in a new class
+			firstLevelButtons.setVisible(false);
+		}
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
