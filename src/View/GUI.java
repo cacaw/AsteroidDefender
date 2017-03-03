@@ -24,7 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class GUI implements KeyListener {
+public class MainMenu implements KeyListener {
 
 	private Font font = new Font("Times New Roman", Font.PLAIN, 55);
 	private JFrame frame;
@@ -33,7 +33,7 @@ public class GUI implements KeyListener {
 	private int userConfirmationInput;
 	private GridBagConstraints c;
 
-	public GUI() throws IOException {
+	public MainMenu() throws IOException {
 		initComponents();
 	}
 
@@ -218,7 +218,7 @@ public class GUI implements KeyListener {
 	}
 
 	public static void main(String[] args) throws IOException {
-		new GUI();
+		new MainMenu();
 	}
 
 	@Override
@@ -241,19 +241,19 @@ public class GUI implements KeyListener {
 		// TODO Auto-generated method stub
 
 	}
-    
-    
-    private ArrayList<Integer> actions;
-    
-    public void RunActions() {
-        
-        int shipMove; // ship speed
-        actions = new ArrayList<>(); // i think this goes in the main layout method
-        
-        for (int i = 0; i < actions.size(); i++) {
-            if(actions.get(i).intValue() == Game.player.getInputUP()) {
-                Game.player.moveShip(shipMove, 0, 1000);
-            }
-        }
-    }
+
+	private ArrayList<Integer> actions;
+
+	public void RunActions() {
+
+		int shipMove; // ship speed
+		actions = new ArrayList<>(); // i think this goes in the main layout
+										// method
+
+		for (int i = 0; i < actions.size(); i++) {
+			if (actions.get(i).intValue() == Game.player.getInputUP()) {
+				Game.player.moveShip(shipMove, 0, 1000);
+			}
+		}
+	}
 }
