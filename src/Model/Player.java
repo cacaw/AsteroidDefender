@@ -24,14 +24,6 @@ public class Player {
     private int inputDOWN;
     private int inputRIGHT;
     
-    //just using for reference
-//    private boolean inputUP;
-//    private boolean inputLEFT;
-//    private boolean inputDOWN;
-//    private boolean inputRIGHT;
-//    private boolean inputCOUNTERCLOCKWISE;
-//    private boolean inputCLOCKWISE;
-    
     //keycodes for shield movement
     public final int VK_LEFT = 37;
     public final int VK_RIGHT = 39;
@@ -39,52 +31,48 @@ public class Player {
     private int inputCOUNTERCLOCKWISE;
     private int inputCLOCKWISE;
     
-    //logic for ship movement
-    public void moveShip(int input, int x, int y){
-        if (inputUP) {
-            this.ship.getY() = this.ship.getY() + this.ship.getySpeed();
-        }else if (inputDOWN) {
-            this.ship.getY() = this.ship.getY() - this.ship.getySpeed();
-        }else if (inputLEFT) {
-            this.ship.getX() = this.ship.getX() - this.ship.getxSpeed();
-        }else if (inputRIGHT) {
-            this.ship.getX() = this.ship.getX() + this.ship.getxSpeed();
+    private int XX = 1000;      //should be max x length in GUI
+    private int YY = 1000;      //should be may y for gui
+    
+    public void moveShipX(int speed, int xx, int XX) {
+        //handles ship move logic across x axis
+        if (this.ship.getX() + speed + (this.ship.getWidth() / 2) > XX) {
+            this.ship.setX(this.ship.getX() + speed);
         }
-        
-        
-        // wraping logic
-        int maxX = 500;//maximum width of screen/panel
-        int maxY = 500;//maximum length of screen/panel
-        int xx;
-        int yy;
-        
-        if (xx < 0) {
-            xx = maxX;
+        else if (this.ship.getX() + speed + (this.ship.getWidth() / 2) == XX) {
+            this.ship.setX(this.ship.getX() - (XX - 1));
         }
-        if (xx > maxX){
-            xx = 0;
+        else if (this.ship.getX() + speed + (this.ship.getWidth() / 2) == 0) {
+            this.ship.setX(this.ship.getX() + XX - 1);
         }
-        if (yy < 0){
-            yy = maxY;
+    }
+    
+    public void moveShipY(int speed, int yy, int YY){
+        //handles ship move logic across y axis
+        if (this.ship.getY() + speed + (this.ship.getHeight() / 2) > YY) {
+            this.ship.setY(this.ship.getY() + speed);
         }
-        if (yy > maxY) {
-            yy = 0;
+        else if (this.ship.getY() + speed + (this.ship.getHeight() / 2) == YY) {
+            this.ship.setY(this.ship.getY() - (YY - 1));
         }
-     
-     
+        else if (this.ship.getY() + speed + (this.ship.getHeight() / 2) == 0) {
+            this.ship.setY(this.ship.getY() + YY - 1);
+        }
     }
     
     
     //logic for shield movement
-    public void moveShield() {
+    public void moveShield(int speed) {
         
-        //outside edge of ship/object position
-        double oX = ship.getX() + ship.getHeight() + 5;
-        double oY = ship.getY() + ship.getHeight() + 5;
+        int buffer = 5;     //holds variable for distance from center of ship to shield
         
         //center of ship/object position
         double cX = ship.getX() + ship.getWidth() / 2;
         double cY = ship.getY() + ship.getHeight() / 2;
+    
+        //outside edge of ship/object position
+        double oX = cX + buffer;
+        double oY = cY + buffer;
         
         //relative vector from current center position
         double vectorX = oX - cX;
@@ -118,6 +106,33 @@ public class Player {
         //target point in relation to ship/object center
         double xPosition = cX + newVectorX;
         double yPosition = cY + newVectorY;
+    
+        
+//        if (this.shield.getY() + speed + (this.ship.getWidth() / 2) > YY) {
+//            this.shield.setY(this.shield.getY() + speed);
+//        }
+        
+        //handles ship move logic across x axis
+        if (this.shield.getX() + xPosition + (this.shield.getWidth() / 2) > XX) {
+            this.shield.setX((int) (this.shield.getX() + xPosition));
+        }
+        else if (this.shield.getX() + xPosition + (this.shield.getWidth() / 2) == XX) {
+            this.shield.setX(this.shield.getX() - (XX - 1));
+        }
+        else if (this.shield.getX() + xPosition + (this.shield.getWidth() / 2) == 0) {
+            this.shield.setX(this.shield.getX() + XX - 1);
+        }
+    
+        //handles shield move logic across y axis
+        if (this.shield.getY() + yPosition + (this.ship.getWidth() / 2) > YY) {
+            this.shield.setY((int) (this.shield.getY() + yPosition));
+        }
+        else if (this.shield.getY() + yPosition + (this.shield.getHight() / 2) == YY) {
+            this.shield.setY(this.shield.getY() - (YY - 1));
+        }
+        else if (this.ship.getY() + yPosition + (this.shield.getHight() / 2) == 0) {
+            this.shield.setY(this.shield.getY() + YY - 1);
+        }
         
         /* another formula which might work
         deltaX = oX-cX;

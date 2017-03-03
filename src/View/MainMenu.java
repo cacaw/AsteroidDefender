@@ -26,7 +26,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class GUI implements KeyListener {
+public class MainMenu implements KeyListener {
 
 	private Font font = new Font("Times New Roman", Font.PLAIN, 55);
 	private JFrame frame;
@@ -35,7 +35,7 @@ public class GUI implements KeyListener {
 	private int userConfirmationInput;
 	private GridBagConstraints c;
 
-	public GUI() throws IOException {
+	public MainMenu() throws IOException {
 		initComponents();
 	}
 
@@ -220,7 +220,7 @@ public class GUI implements KeyListener {
 	}
 
 	public static void main(String[] args) throws IOException {
-		new GUI();
+		new MainMenu();
 	}
 
 	@Override
@@ -251,6 +251,7 @@ public class GUI implements KeyListener {
     //    public class ViewController implements Serializable,KeyListener{
 //        private final int PANEL_MOVE_AMOUNT = 10;
     private int moveAmount = game.getPlayer().getShip().getxSpeed();
+    private int shieldSpeed = 5;
     
     public void RunActions() {
         
@@ -259,17 +260,17 @@ public class GUI implements KeyListener {
         
         for (int i = 0; i < actions.size(); i++) {
             if(actions.get(i).intValue() == game.getPlayer().getInputUP()) {
-                game.getPlayer().moveShip(moveAmount, 0, 0);                    //need variables to move up
+                game.getPlayer().moveShipY(moveAmount, 0, 1000);
             }else if (actions.get(i).intValue() == game.getPlayer().getInputLEFT()) {
-                game.getPlayer().moveShip(moveAmount, 0, 0);                    //need variables to move left
+                game.getPlayer().moveShipX(moveAmount * -1, 0, 1000);
             }else if (actions.get(i).intValue() == game.getPlayer().getInputDOWN()) {
-                game.getPlayer().moveShip(moveAmount, 0, 0);                    //need variables to move right
+                game.getPlayer().moveShipY(moveAmount * -1, 0, 1000);
             }else if (actions.get(i).intValue() == game.getPlayer().getInputRIGHT()) {
-                game.getPlayer().moveShip(moveAmount, 0, 0);                    //need variables to move down
+                game.getPlayer().moveShipX(moveAmount, 0, 1000);
             }else if (actions.get(i).intValue() == game.getPlayer().getInputCOUNTERCLOCKWISE()) {
-                game.getPlayer().moveShield();                                        //variables to move shield CC
+                game.getPlayer().moveShield(shieldSpeed);
             }else if (actions.get(i).intValue() == game.getPlayer().getInputCLOCKWISE()) {
-                game.getPlayer().moveShield();                                        //variables to move shield CW
+                game.getPlayer().moveShield(shieldSpeed * -1);
             }
         }
     }

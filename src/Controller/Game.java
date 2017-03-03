@@ -2,14 +2,12 @@ package Controller;
 
 import Model.Asteroid;
 import Model.Player;
-import View.GUI;
-import View.ViewController;
+import View.MainMenu;
 
-import java.awt.event.ActionEvent;
+import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Timer;
 
 /**
  * Created by Patricki on 2/24/2017.
@@ -20,7 +18,7 @@ public class Game {
     private ArrayList<Asteroid> asteroids =new ArrayList<>();
     private Asteroid[] asteroidRay;
     
-    private GUI ui;
+    private MainMenu ui;
 //    private ViewController ui;
     private Timer timer;
     private int levelTime;
@@ -31,7 +29,7 @@ public class Game {
     
     public Game() throws IOException {
         
-        ui = new GUI();
+        ui = new MainMenu();
         player = new Player();
         asteroidRay = new Asteroid[3];
         
@@ -73,24 +71,39 @@ public class Game {
         //TODO create main loop method for playing the game
         ui.RunActions();
         asteroidMotion();
+    
+        boolean LevelBeat = checkLevelBeat();
         
-        if (checkLevelBeat()){
-            
-            Player LevelBeat = getLevelBeat();
-            Player LevelLost = getLevelLost();
-            
-            if (LevelBeat != null) {
-                timer.stop();
-            }else {
-            
+        //stops timer if level beat
+        if (LevelBeat != false) {
+            timer.stop();
         }
-        
+    }
+    
+    
+    public void GameStart(){
+        timer.start();
+    }
+    
+    public void togglePause() {
+        if (timer.isRunning()) {
+            timer.stop();
+        }else {
+            timer.start();
+        }
     }
     
     private boolean checkLevelBeat() {
         
         // checks to see if the player survived the timeer or if the ships health reaches 0
         if (levelTime == 0 || player.getShip().getHealth() == 0) {
+            return true;
+        }
+        return false;
+    }
+    
+    private boolean checkLevelLost() {
+        if (player.getShip().getHealth() == 0) {
             return true;
         }
         return false;
@@ -119,11 +132,11 @@ public class Game {
         this.asteroids = asteroids;
     }
     
-    public GUI getUi() {
+    public MainMenu getUi() {
         return ui;
     }
     
-    public void setUi(GUI ui) {
+    public void setUi(MainMenu ui) {
         this.ui = ui;
     }
     

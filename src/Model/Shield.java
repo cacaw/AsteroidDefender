@@ -10,8 +10,8 @@ public class Shield implements Collidable{
     Ship ship;
     
     //declare dimensions of shield
-    private int width;
-    private int hight;
+    private int width = 5;
+    private int hight = 5;
     private int right;
     private int left;
     
@@ -50,6 +50,22 @@ public class Shield implements Collidable{
     
     public void setShip(Ship ship) {
         this.ship = ship;
+    }
+    
+    public int getWidth() {
+        return width;
+    }
+    
+    public void setWidth(int width) {
+        this.width = width;
+    }
+    
+    public int getHight() {
+        return hight;
+    }
+    
+    public void setHight(int hight) {
+        this.hight = hight;
     }
     
     @Override
