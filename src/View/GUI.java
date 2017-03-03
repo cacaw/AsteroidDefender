@@ -1,3 +1,5 @@
+package View;
+
 import Controller.Game;
 
 import java.awt.Color;
@@ -242,8 +244,13 @@ public class GUI implements KeyListener {
 
 	}
     
-    
+
     private ArrayList<Integer> actions;
+	private Game game;
+    
+    //    public class ViewController implements Serializable,KeyListener{
+//        private final int PANEL_MOVE_AMOUNT = 10;
+    private int moveAmount = game.getPlayer().getShip().getxSpeed();
     
     public void RunActions() {
         
@@ -251,9 +258,22 @@ public class GUI implements KeyListener {
         actions = new ArrayList<>(); // i think this goes in the main layout method
         
         for (int i = 0; i < actions.size(); i++) {
-            if(actions.get(i).intValue() == Game.player.getInputUP()) {
-                Game.player.moveShip(shipMove, 0, 1000);
+            if(actions.get(i).intValue() == game.getPlayer().getInputUP()) {
+                game.getPlayer().moveShip(moveAmount, 0, 0);                    //need variables to move up
+            }else if (actions.get(i).intValue() == game.getPlayer().getInputLEFT()) {
+                game.getPlayer().moveShip(moveAmount, 0, 0);                    //need variables to move left
+            }else if (actions.get(i).intValue() == game.getPlayer().getInputDOWN()) {
+                game.getPlayer().moveShip(moveAmount, 0, 0);                    //need variables to move right
+            }else if (actions.get(i).intValue() == game.getPlayer().getInputRIGHT()) {
+                game.getPlayer().moveShip(moveAmount, 0, 0);                    //need variables to move down
+            }else if (actions.get(i).intValue() == game.getPlayer().getInputCOUNTERCLOCKWISE()) {
+                game.getPlayer().moveShield();                                        //variables to move shield CC
+            }else if (actions.get(i).intValue() == game.getPlayer().getInputCLOCKWISE()) {
+                game.getPlayer().moveShield();                                        //variables to move shield CW
             }
         }
     }
+    
+    
+    
 }

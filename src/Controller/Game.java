@@ -74,11 +74,26 @@ public class Game {
         ui.RunActions();
         asteroidMotion();
         
+        if (checkLevelBeat()){
+            
+            Player LevelBeat = getLevelBeat();
+            Player LevelLost = getLevelLost();
+            
+            if (LevelBeat != null) {
+                timer.stop();
+            }else {
+            
+        }
+        
     }
     
     private boolean checkLevelBeat() {
-        //TODO create method for checking if level is over
-        return true;
+        
+        // checks to see if the player survived the timeer or if the ships health reaches 0
+        if (levelTime == 0 || player.getShip().getHealth() == 0) {
+            return true;
+        }
+        return false;
     }
     
     private void asteroidMotion() {
