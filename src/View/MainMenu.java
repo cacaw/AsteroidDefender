@@ -27,7 +27,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class MainMenu implements KeyListener {
-
+	
+	private Game game;
 	private Font font = new Font("Times New Roman", Font.PLAIN, 55);
 	private JFrame frame;
 	private JPanel mainMenu, mainMenuButtons, firstLevel, firstLevelButtons;
@@ -248,7 +249,7 @@ public class MainMenu implements KeyListener {
     
 
     private ArrayList<Integer> actions;
-	private Game game;
+	
     
     //    public class ViewController implements Serializable,KeyListener{
 //        private final int PANEL_MOVE_AMOUNT = 10;
@@ -316,5 +317,13 @@ public class MainMenu implements KeyListener {
 	
 	public void setFirstLevelButtons(JPanel firstLevelButtons) {
 		this.firstLevelButtons = firstLevelButtons;
+	}
+	
+	public Game getGame() {
+		return game;
+	}
+	
+	public void setGame(Game game) {
+		this.game = game;
 	}
 }
