@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.Game;
+
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.*;
@@ -137,7 +139,7 @@ public class Asteroid implements ActionListener, Collidable{
 	}*/
 
 	/**
-	 * @param velocity the velocity to set
+//	 * @param velocity the velocity to set
 	 */
 	/*
 	public void setVelocity(Vector velocity) {
@@ -147,12 +149,13 @@ public class Asteroid implements ActionListener, Collidable{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (x + xvel > game.getWidth() - size|| x+xvel<0)
-		{
+        if (x + xvel > game.getUi().getFrame().getWidth() - size || x + xvel < 0) {
+//		if (x + xvel > game.getWidth() - size|| x+xvel<0)
+//		{
 			//bounce x of the sides
 			xvel*=-1;
 		}
-		if (y + yvel > game.getHeight() - size||y + yvel < 0)
+		if (y + yvel > game.getUi().getFrame().getHeight() - size||y + yvel < 0)
 		{
 			yvel *=-1;;
 		}
