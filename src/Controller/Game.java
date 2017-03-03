@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class Game {
     
     private Player player;
+    private Asteroid asteroid;
     private ArrayList<Asteroid> asteroids =new ArrayList<>();
     private Asteroid[] asteroidRay;
     
@@ -51,18 +52,19 @@ public class Game {
         player.setInputCOUNTERCLOCKWISE(player.VK_LEFT);
         player.setInputCLOCKWISE(player.VK_RIGHT);
         
-        //TODO arraylist for asteroids
-        //create and show asteroids
+        //set positions for asteroids
+        //TODO randominzing method for asteroid starting placement
         for(int i = 0; i < asteroidRay.length; i++) {
             asteroidRay[i] = new Asteroid();
-            asteroidRay[i].setX(ui.getFrame());
-            asteroidRay[i].setY(ui.getFrame);
+            asteroidRay[i].setX(((ui.getFrame().getWidth())));
+            asteroidRay[i].setY(((ui.getFrame().getHeight())));
         }
         
         //TODO timer for movement
+        //the way its set up right now it will only have a timer on the first level
         timer = new Timer(1000/60, (ActionListener) e -> {
             mainLoop();
-            ui.getPanel().repaint();
+            ui.getFirstLevel().repaint();
         });
     
     }
@@ -154,6 +156,14 @@ public class Game {
     
     public void setAsteroidRay(Asteroid[] asteroidRay) {
         this.asteroidRay = asteroidRay;
+    }
+    
+    public Asteroid getAsteroid() {
+        return asteroid;
+    }
+    
+    public void setAsteroid(Asteroid asteroid) {
+        this.asteroid = asteroid;
     }
     
     public int getLevelTime() {

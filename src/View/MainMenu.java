@@ -285,4 +285,36 @@ public class MainMenu implements KeyListener {
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
 	}
+	
+	public JPanel getMainMenu() {
+		return mainMenu;
+	}
+	
+	public void setMainMenu(JPanel mainMenu) {
+		this.mainMenu = mainMenu;
+	}
+	
+	public JPanel getMainMenuButtons() {
+		return mainMenuButtons;
+	}
+	
+	public void setMainMenuButtons(JPanel mainMenuButtons) {
+		this.mainMenuButtons = mainMenuButtons;
+	}
+	
+	public JPanel getFirstLevel() {
+		return firstLevel;
+	}
+	
+	public void setFirstLevel(JPanel firstLevel) {
+		this.firstLevel = firstLevel;
+	}
+	
+	public JPanel getFirstLevelButtons() {
+		return firstLevelButtons;
+	}
+	
+	public void setFirstLevelButtons(JPanel firstLevelButtons) {
+		this.firstLevelButtons = firstLevelButtons;
+	}
 }
