@@ -22,8 +22,9 @@ public class Ship implements Collidable{
     private int xSpeed = 2;
     private int ySpeed = 2;
     
-    public Ship() {}
+    Ship() {}
     
+    @SuppressWarnings("unused")
     public Ship(int x, int y) {
         this.setX(x);
         this.setY(y);

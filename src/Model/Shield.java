@@ -7,17 +7,15 @@ import java.awt.*;
  */
 public class Shield implements Collidable{
     
-    Ship ship;
+    private Ship ship;
     
     //declare dimensions of shield
     private int width = 5;
-    private int hight = 5;
-    private int right;
-    private int left;
+    private int height = 5;
+//    private int right;
+//    private int left;
     
     //declare location of shield
-    private int baseLocationX = ship.getX();
-    private int baseLocationY = ship.getY();
     private int X;
     private int Y;
     
@@ -60,16 +58,16 @@ public class Shield implements Collidable{
         this.width = width;
     }
     
-    public int getHight() {
-        return hight;
+    public int getHeight() {
+        return height;
     }
     
-    public void setHight(int hight) {
-        this.hight = hight;
+    public void setHeight(int height) {
+        this.height = height;
     }
     
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(getX(), getY(), width, hight);
+        return new Rectangle(getX(), getY(), width, height);
     }
 }

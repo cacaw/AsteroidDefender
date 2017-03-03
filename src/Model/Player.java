@@ -5,8 +5,8 @@ package Model;
  */
 public class Player {
     
-    Ship ship;
-    Shield shield;
+    private Ship ship;
+    private Shield shield;
     
     public Player(){
         shield = new Shield();
@@ -101,11 +101,11 @@ public class Player {
         double deltaTheta = speed / radius;
         
         //find angular position where speed is a linear distance
-        double deltaTheta2 = 2 * Math.asin(speed / radius);
+//        double deltaTheta2 = 2 * Math.asin(speed / radius);
         
         //find new angle
         double counterTheta = curTheta + deltaTheta; //for counter clockwise movement
-        double clockwiseTheta = curTheta - deltaTheta; //for clockwise movement
+//        double clockwiseTheta = curTheta - deltaTheta; //for clockwise movement
         
         //updated relative vector
         double newVectorX = radius * Math.cos(counterTheta);
@@ -135,10 +135,10 @@ public class Player {
         if (this.shield.getY() + yPosition + (this.ship.getWidth() / 2) > YY) {
             this.shield.setY((int) (this.shield.getY() + yPosition));
         }
-        else if (this.shield.getY() + yPosition + (this.shield.getHight() / 2) == YY) {
+        else if (this.shield.getY() + yPosition + (this.shield.getHeight() / 2) == YY) {
             this.shield.setY(this.shield.getY() - (YY - 1));
         }
-        else if (this.ship.getY() + yPosition + (this.shield.getHight() / 2) == 0) {
+        else if (this.ship.getY() + yPosition + (this.shield.getHeight() / 2) == 0) {
             this.shield.setY(this.shield.getY() + YY - 1);
         }
         
