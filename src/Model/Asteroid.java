@@ -1,7 +1,6 @@
 package Model;
 
-import Controller.Game;
-
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.*;
@@ -10,45 +9,53 @@ import java.util.Random;
 
 import javax.swing.*;
 
-public class Asteroid implements ActionListener, Collidable{
+public class Asteroid implements Collidable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int size;
+	private int astSize;
 	private int health;
 	private int x;
 	private int y;
 	private int yvel;
 	private int xvel;
 	//private Vector velocity;
-	private Game game;
-	private Timer myTime;
+	private JPanel game;
 	private ArrayList<Asteroid> field;
-	
+	private Ship ship;
+	private Color myC = Color.WHITE;
 	public Asteroid()
 	{
 		
 	}
-	
-	public Asteroid(int size,int x, int y, int minVel, int maxVel, ArrayList<Asteroid> myField)
+	/**
+	 * overloaded constructor to intake 
+	 * @param size
+	 * @param x
+	 * @param y
+	 * @param minVel
+	 * @param maxVel
+	 * @param myField
+	 */
+	public Asteroid(int size,int x, int y, int minVel, int maxVel, ArrayList<Asteroid> myField,JPanel game)
 	{
 		this.setX(x);
 		this.setY(y);
-		this.setSize(size);
+		this.setAstSize(size);
 		Random rndm = new Random();
-		setVel(rndm,minVel,maxVel);
-		field = myField;
-		health = 3;
-		myTime = new Timer(3000,this);
-		myTime.start();
+		this.setVel(rndm,minVel,maxVel);
+		this.setGame(game);
+		this.setField(myField);
+		health = size/10;
+		//this.setVisible(true);
 	}
 	
 	/**
-	 * Sets a psuedo random velocity for the xvel and yvel 
+	 * Sets a pseudo random velocity for the xvel and yvel 
 	 */
 	private void setVel(Random rndm, int minVel, int maxVel) {
-		for(int i=0; i<2; i++)
+		/*for(int i=0; i<2; i++)
 		{
 			if(rndm.nextBoolean() && i%2 == 0)
 			{
@@ -68,25 +75,58 @@ public class Asteroid implements ActionListener, Collidable{
 				this.setYvel(-1*rndm.nextInt(maxVel-minVel)+minVel);
 			}
 				
-		}
+		}*/
+		this.setXvel(minVel);
+		this.setY(0);
 		
 	}
-
+	/**
+	 * paints a circle that represents an asteroid
+	 * @param g
+	 */
 	public void paint(Graphics g) {
-		g.fillOval(x, y, size, size);
+		//super.paint(g);
+		g.setColor(myC);
+		g.fillOval(this.getX(),this.getY(), astSize, astSize);
+		
+		
+	}
+	/**
+	 * @return the game
+	 */
+	public JPanel getGame() {
+		return game;
+	}
+	/**
+	 * @param game the game to set
+	 */
+	public void setGame(JPanel game) {
+		this.game = game;
+	}
+	/**
+	 * @return the field
+	 */
+	public ArrayList<Asteroid> getField() {
+		return field;
+	}
+	/**
+	 * @param field the field to set
+	 */
+	public void setField(ArrayList<Asteroid> field) {
+		this.field = field;
 	}
 	/**
 	 * @return the size
 	 */
-	public int getSize() {
-		return size;
+	public int getAstSize() {
+		return astSize;
 	}
 
 	/**
 	 * @param size the size to set
 	 */
-	public void setSize(int size) {
-		this.size = size;
+	public void setAstSize(int size) {
+		this.astSize = size;
 	}
 
 	/**
@@ -139,29 +179,30 @@ public class Asteroid implements ActionListener, Collidable{
 	}*/
 
 	/**
-//	 * @param velocity the velocity to set
+	 * @param velocity the velocity to set
 	 */
 	/*
 	public void setVelocity(Vector velocity) {
 		this.velocity = velocity;
 	}*/
+	/**
+	 * moves the asteroid according to the xvel and yvel values and changes those values based on collision
+	 */
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-        if (x + xvel > game.getUi().getFrame().getWidth() - size || x + xvel < 0) {
-//		if (x + xvel > game.getWidth() - size|| x+xvel<0)
-//		{
+	public void move() {
+		if (x + xvel > game.getWidth() - astSize|| x+xvel<0)
+		{
 			//bounce x of the sides
 			xvel*=-1;
 		}
-		if (y + yvel > game.getUi().getFrame().getHeight() - size||y + yvel < 0)
+		if (y + yvel > game.getHeight() - astSize||y + yvel < 0)
 		{
 			yvel *=-1;;
 		}
 		// the cases of collision for an asteroid from the vertical or horizontal
 		if (collision() == 1){
 			xvel *= -1;
+			myC = Color.RED;
 		}
 		if(collision() == 2)
 		{
@@ -171,7 +212,6 @@ public class Asteroid implements ActionListener, Collidable{
 		x = x + xvel;
 		y = y + yvel;
 	}
-
 	/**
 	 * @return the yvel
 	 */
@@ -199,23 +239,38 @@ public class Asteroid implements ActionListener, Collidable{
 	public void setXvel(int xvel) {
 		this.xvel = xvel;
 	}
-	
+	/**
+	 * 
+	 * @param colliding
+	 * @return a boolean if the collision happens on the left or right sides
+	 */
 	private boolean hCollide(Asteroid colliding)
 	{
-		return (this.getY()> (colliding.getY()-(this.getSize()+this.getY())) &&
-				this.getY() < (colliding.getSize()+colliding.getY()+this.getSize())&&
-				(this.getX()>= colliding.getX()+colliding.getSize()||
-				this.getX()+this.getSize()<=colliding.getX()));
+		return (this.getY()> (colliding.getY()-(this.getAstSize()+this.getY())) &&
+				this.getY() < (colliding.getAstSize()+colliding.getY()+this.getAstSize())&&
+				(this.getX()>= colliding.getX()+colliding.getAstSize()||
+				this.getX()+this.getAstSize()<=colliding.getX()));
 	}
-	
+	/**
+	 * 
+	 * @param colliding
+	 * @return a boolean if the collision happens on the top or bottom
+	 */
 	private boolean vCollide(Asteroid colliding)
 	{
-		return (this.getX()> (colliding.getX()-(this.getSize()+this.getX())) &&
-				this.getX() < (colliding.getSize()+colliding.getX()+this.getSize())&&
-				(this.getY()>= colliding.getY()+colliding.getSize()||
-				this.getY()+this.getSize()<=colliding.getY()));
+		return (this.getX()> (colliding.getX()-(this.getAstSize()+this.getX())) &&
+				this.getX() < (colliding.getAstSize()+colliding.getX()+this.getAstSize())&&
+				(this.getY()>= colliding.getY()+colliding.getAstSize()||
+				this.getY()+this.getAstSize()<=colliding.getY()));
 	}
-	
+	/**
+	 * 
+	 * @return an int that represents the type of collision that has occurred
+	 * 1 - horizontal collision between asteroids
+	 * 2 - vertical collision between asteroids
+	 * 3 - collision with the shield of the ship
+	 * 4 - collision with the ship
+	 */
 	private int collision() {
 
 		for(Asteroid colliding : field)
@@ -224,6 +279,7 @@ public class Asteroid implements ActionListener, Collidable{
 			{
 				if(this.getBounds().intersects(colliding.getBounds())&& hCollide(colliding))
 				{
+					myC=Color.RED;
 					return 1;
 				}
 				if(this.getBounds().intersects(colliding.getBounds())&& vCollide(colliding))
@@ -232,13 +288,43 @@ public class Asteroid implements ActionListener, Collidable{
 				}
 			}
 			//colliding with the ship
+			if(shipCollision(ship))
+			{
+				return 3;
+			}
 			//colliding with the shield
+			if(shieldCollision(ship))
+			{
+				return 4;
+			}
 		}
 		return 0;
 	}
+	private boolean shipCollision(Collidable colliding)
+	{
+		boolean hit = false;
+		/*if(this.getBounds().intersects(colliding.getBounds()) && colliding instanceof Ship)
+		{
+			Ship myShip= (Ship)colliding;
+			myShip.setHealth(myShip.getHealth()-this.getHealth());
+			field.remove(this);
+			
+		}*/
+		return hit;
+	}
 	
+	private boolean shieldCollision(Collidable colliding)
+	{
+		boolean hit = false;
+		
+		return hit;
+	}
+	
+	/**
+	 * 
+	 */
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, size, size);
+		return new Rectangle(x, y, astSize, astSize);
 	}
 	
 }
