@@ -44,6 +44,14 @@ public class Shield implements Collidable{
         Y = y;
     }
     
+    public Ship getShip() {
+        return ship;
+    }
+    
+    public void setShip(Ship ship) {
+        this.ship = ship;
+    }
+    
     @Override
     public Rectangle getBounds() {
         return new Rectangle(getX(), getY(), width, hight);

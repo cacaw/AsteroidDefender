@@ -1,3 +1,5 @@
+import Controller.Game;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -12,6 +14,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -238,5 +241,19 @@ public class GUI implements KeyListener {
 		// TODO Auto-generated method stub
 
 	}
-
+    
+    
+    private ArrayList<Integer> actions;
+    
+    public void RunActions() {
+        
+        int shipMove; // ship speed
+        actions = new ArrayList<>(); // i think this goes in the main layout method
+        
+        for (int i = 0; i < actions.size(); i++) {
+            if(actions.get(i).intValue() == Game.player.getInputUP()) {
+                Game.player.moveShip(shipMove, 0, 1000);
+            }
+        }
+    }
 }

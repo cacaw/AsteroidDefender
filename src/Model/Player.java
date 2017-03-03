@@ -8,6 +8,10 @@ public class Player {
     Ship ship;
     Shield shield;
     
+    public Player(){
+        shield = new Shield();
+        ship = new Ship();
+    }
     
     //keycodes for ship movement
     public final int VK_W = 87;
@@ -21,12 +25,12 @@ public class Player {
     private int inputRIGHT;
     
     //just using for reference
-    private boolean inputUP;
-    private boolean inputLEFT;
-    private boolean inputDOWN;
-    private boolean inputRIGHT;
-    private boolean inputCOUNTERCLOCKWISE;
-    private boolean inputCLOCKWISE;
+//    private boolean inputUP;
+//    private boolean inputLEFT;
+//    private boolean inputDOWN;
+//    private boolean inputRIGHT;
+//    private boolean inputCOUNTERCLOCKWISE;
+//    private boolean inputCLOCKWISE;
     
     //keycodes for shield movement
     public final int VK_LEFT = 37;
@@ -129,5 +133,67 @@ public class Player {
          */
     }
     
+    public Ship getShip() {
+        return ship;
+    }
     
+    public void setShip(Ship ship) {
+        this.ship = ship;
+    }
+    
+    public Shield getShield() {
+        return shield;
+    }
+    
+    public void setShield(Shield shield) {
+        this.shield = shield;
+    }
+    
+    public int getInputUP() {
+        return inputUP;
+    }
+    
+    public void setInputUP(int inputUP) {
+        this.inputUP = inputUP;
+    }
+    
+    public int getInputLEFT() {
+        return inputLEFT;
+    }
+    
+    public void setInputLEFT(int inputLEFT) {
+        this.inputLEFT = inputLEFT;
+    }
+    
+    public int getInputDOWN() {
+        return inputDOWN;
+    }
+    
+    public void setInputDOWN(int inputDOWN) {
+        this.inputDOWN = inputDOWN;
+    }
+    
+    public int getInputRIGHT() {
+        return inputRIGHT;
+    }
+    
+    public void setInputRIGHT(int inputRIGHT) {
+        this.inputRIGHT = inputRIGHT;
+    }
+    
+    public int getInputCOUNTERCLOCKWISE() {
+        return inputCOUNTERCLOCKWISE;
+    }
+    
+    public void setInputCOUNTERCLOCKWISE(int inputCOUNTERCLOCKWISE) {
+        this.inputCOUNTERCLOCKWISE = inputCOUNTERCLOCKWISE;
+    }
+    
+    public int getInputCLOCKWISE() {
+        return inputCLOCKWISE;
+    }
+    
+    public void setInputCLOCKWISE(int inputCLOCKWISE) {
+        this.inputCLOCKWISE = inputCLOCKWISE;
+    }
 }
