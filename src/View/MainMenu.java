@@ -124,6 +124,8 @@ public class MainMenu implements KeyListener {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//sets size of the frame for everything to work in
+		frame.setSize(new Dimension(1000, 1000));
 	}
 
 	private void buildLevel() {
@@ -274,7 +276,13 @@ public class MainMenu implements KeyListener {
             }
         }
     }
-    
-    
-    
+	
+	
+	public JFrame getFrame() {
+		return frame;
+	}
+	
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
 }

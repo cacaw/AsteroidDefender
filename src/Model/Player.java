@@ -38,12 +38,15 @@ public class Player {
         //handles ship move logic across x axis
         if (this.ship.getX() + speed + (this.ship.getWidth() / 2) > XX) {
             this.ship.setX(this.ship.getX() + speed);
+            this.shield.setX(this.ship.getX() + speed);
         }
         else if (this.ship.getX() + speed + (this.ship.getWidth() / 2) == XX) {
             this.ship.setX(this.ship.getX() - (XX - 1));
+            this.shield.setX(this.ship.getX() + speed);
         }
         else if (this.ship.getX() + speed + (this.ship.getWidth() / 2) == 0) {
             this.ship.setX(this.ship.getX() + XX - 1);
+            this.shield.setX(this.ship.getX() + speed);
         }
     }
     
@@ -51,18 +54,23 @@ public class Player {
         //handles ship move logic across y axis
         if (this.ship.getY() + speed + (this.ship.getHeight() / 2) > YY) {
             this.ship.setY(this.ship.getY() + speed);
+            this.shield.setY(this.shield.getY() + speed);
         }
         else if (this.ship.getY() + speed + (this.ship.getHeight() / 2) == YY) {
             this.ship.setY(this.ship.getY() - (YY - 1));
+            this.shield.setY(this.shield.getY() + speed);
         }
         else if (this.ship.getY() + speed + (this.ship.getHeight() / 2) == 0) {
             this.ship.setY(this.ship.getY() + YY - 1);
+            this.shield.setY(this.shield.getY() + speed);
         }
     }
     
     
     //logic for shield movement
     public void moveShield(int speed) {
+        
+        speed = 5;
         
         int buffer = 5;     //holds variable for distance from center of ship to shield
         
@@ -85,7 +93,7 @@ public class Player {
         double curTheta = Math.atan2(vectorX, vectorY);
         
         //speed at which the shield moves
-        int speed = 5;
+//        int speed = 5;
         //inputCOUNTERCLOCKWISE = speed;
         //inputCLOCKWISE = speed* -1;
         

@@ -33,15 +33,15 @@ public class Game {
         player = new Player();
         asteroidRay = new Asteroid[3];
         
-        //create and show ship
-        //numbers are pong and will will probably need to be changed at some point
-        player.getShip().setX((ui.getDisplay().getWidth() - 100);
-        player.getShip().setY((ui.getDisplay().getHight() / 2) -150);
+        //set ship position
+        //should start ship in middle of frame
+        player.getShip().setX((ui.getFrame().getWidth() / 2));
+        player.getShip().setY((ui.getFrame().getHeight() / 2));
         
-        //create and show shield
-        //might need some math here like we have in the above ship
-        player.getShield().setX(ui.getDisplay());
-        player.getShield().setY(ui.getDisplay());
+        //set shield position
+        //should start shield relative to ship
+        player.getShield().setX((ui.getFrame().getWidth()));
+        player.getShield().setY(ui.getFrame().getHeight());
         
         //set player controls
         player.setInputUP(player.VK_W);
@@ -55,8 +55,8 @@ public class Game {
         //create and show asteroids
         for(int i = 0; i < asteroidRay.length; i++) {
             asteroidRay[i] = new Asteroid();
-            asteroidRay[i].setX(ui.getDisplay);
-            asteroidRay[i].setY(ui.getDisplay);
+            asteroidRay[i].setX(ui.getFrame());
+            asteroidRay[i].setY(ui.getFrame);
         }
         
         //TODO timer for movement
