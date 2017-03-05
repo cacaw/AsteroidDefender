@@ -29,9 +29,10 @@ import javax.swing.JPanel;
 public class MainMenu implements KeyListener {
 	
 	private Game game;
+	private static final long serialVersionUID = 1L;
 	private Font font = new Font("Times New Roman", Font.PLAIN, 55);
 	private JFrame frame;
-	private JPanel mainMenu, mainMenuButtons, firstLevel, firstLevelButtons;
+	private JPanel mainMenuPanel, mainMenuButtons, firstLevel, firstLevelButtons, controlsScreen, controlsScreenButtons;
 	private JButton start, quit, viewControls, selectLevel;
 	private int userConfirmationInput;
 	private GridBagConstraints c;
@@ -43,6 +44,7 @@ public class MainMenu implements KeyListener {
 	private void initComponents() throws IOException {
 		buildFrame();
 		buildLevel();
+		buildControlsScreen();
 		initJButtons();
 		createLayout();
 		frame.pack();
@@ -55,7 +57,7 @@ public class MainMenu implements KeyListener {
 		c = new GridBagConstraints();
 		BufferedImage image = ImageIO.read(new File("MainMenu.jpg"));
 
-		mainMenu = new JPanel(new GridBagLayout()) {
+		mainMenuPanel = new JPanel(new GridBagLayout()) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -72,6 +74,7 @@ public class MainMenu implements KeyListener {
 
 		mainMenuButtons.add(start);
 		start.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		mainMenuButtons.add(Box.createRigidArea(new Dimension(0, 50)));
 		mainMenuButtons.add(selectLevel);
 		selectLevel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -81,9 +84,9 @@ public class MainMenu implements KeyListener {
 		mainMenuButtons.add(Box.createRigidArea(new Dimension(0, 50)));
 		mainMenuButtons.add(quit);
 		quit.setAlignmentX(Component.CENTER_ALIGNMENT);
-		mainMenu.add(mainMenuButtons, c);
-		frame.getContentPane().add(mainMenu);
-		mainMenu.repaint();
+		mainMenuPanel.add(mainMenuButtons, c);
+		frame.getContentPane().add(mainMenuPanel);
+		mainMenuPanel.repaint();
 	}
 
 	private void initJButtons() {
@@ -125,8 +128,6 @@ public class MainMenu implements KeyListener {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		//sets size of the frame for everything to work in
-		frame.setSize(new Dimension(1000, 1000));
 	}
 
 	private void buildLevel() {
@@ -134,7 +135,7 @@ public class MainMenu implements KeyListener {
 		c = new GridBagConstraints();
 
 		firstLevelButtons = new JPanel();
-		JButton mainMenu = new JButton("Main Menu");
+		JButton mainMenuLevel = new JButton("Main Menu");
 		JButton quitLevel = new JButton("Quit Level");
 		// utilize one panel - rebuilding / have class for it
 
@@ -143,13 +144,13 @@ public class MainMenu implements KeyListener {
 		firstLevelButtons.setOpaque(false);
 		firstLevelButtons.setLayout(new BoxLayout(firstLevelButtons, BoxLayout.Y_AXIS));
 
-		mainMenu.setAlignmentX(Component.CENTER_ALIGNMENT);
-		mainMenu.setFont(font);
+		mainMenuLevel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		mainMenuLevel.setFont(font);
 
 		quitLevel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		quitLevel.setFont(font);
 
-		firstLevelButtons.add(mainMenu, c);
+		firstLevelButtons.add(mainMenuLevel, c);
 		firstLevelButtons.add(Box.createRigidArea(new Dimension(0, 50)));
 		firstLevelButtons.add(quitLevel, c);
 
@@ -160,7 +161,7 @@ public class MainMenu implements KeyListener {
 
 		// implement keyPress + key release action listeners
 		// give quitLevel an option to return to level select screen
-		mainMenu.addActionListener(new ActionListener() {
+		mainMenuLevel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				userConfirmationInput = JOptionPane.showConfirmDialog(null, "Do you want to return to main menu?",
 						"Select desired option?", JOptionPane.YES_NO_CANCEL_OPTION);
@@ -188,20 +189,43 @@ public class MainMenu implements KeyListener {
 
 	}
 
+	private void buildControlsScreen() {
+		controlsScreen = new JPanel(new GridBagLayout());
+		c = new GridBagConstraints();
+
+		controlsScreenButtons = new JPanel();
+		JLabel mainMenuControls = new JLabel("Controls");
+		// utilize one panel - rebuilding / have class for it
+
+		controlsScreen.setBackground(Color.darkGray);
+
+		controlsScreenButtons.setOpaque(false);
+		controlsScreenButtons.setLayout(new BoxLayout(firstLevelButtons, BoxLayout.Y_AXIS));
+
+		mainMenuControls.setAlignmentX(Component.CENTER_ALIGNMENT);
+		mainMenuControls.setFont(font);
+
+		// controlsScreenButtons.add(mainMenuControls);
+		// controlsScreenButtons.add(Box.createRigidArea(new Dimension(0, 50)));
+
+		// controlsScreen.add(firstLevelButtons);
+
+	}
+
 	private void startButtonEvent(ActionEvent evt) {
 		userConfirmationInput = JOptionPane.showConfirmDialog(null, "Select desired option", "Are you certain?",
 				JOptionPane.YES_NO_CANCEL_OPTION);
 		if (userConfirmationInput == 0) {
 			firstLevel.setVisible(true);
 			frame.getContentPane().add(firstLevel);
-			mainMenu.setVisible(false);
+			mainMenuPanel.setVisible(false);
 		}
 
 	}
 
 	private void mainMenuReturn(ActionEvent evt) {
 		firstLevel.setVisible(false);
-		mainMenu.setVisible(true);
+		mainMenuPanel.setVisible(true);
 	}
 
 	private void levelSelectReturn(ActionEvent e) {
@@ -216,17 +240,12 @@ public class MainMenu implements KeyListener {
 	}
 
 	private void viewControlsButtonEvent(ActionEvent evt) {
-		// TODO Auto-generated method stub
 
 	}
 
 	private void quitButtonEvent(ActionEvent evt) {
 		System.exit(0);
 
-	}
-
-	public static void main(String[] args) throws IOException {
-		new MainMenu();
 	}
 
 	@Override
@@ -237,13 +256,12 @@ public class MainMenu implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (firstLevelButtons.isVisible() == false) {
+		if (firstLevelButtons.isVisible() == false && e.getKeyCode() == KeyEvent.VK_P) {
 			firstLevelButtons.setVisible(true);
-		} else if (firstLevelButtons.isVisible() == true) {
+
+		} else if (firstLevelButtons.isVisible() == true && e.getKeyCode() == KeyEvent.VK_P) {
 			firstLevelButtons.setVisible(false);
 		}
-
-	}
 
 	}
 
@@ -252,6 +270,12 @@ public class MainMenu implements KeyListener {
 		// TODO Auto-generated method stub
 
 	}
+
+	public static void main(String[] args) throws IOException {
+		new MainMenu();
+	}
+
+}
     
 
     private ArrayList<Integer> actions;
