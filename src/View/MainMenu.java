@@ -154,6 +154,9 @@ public class MainMenu implements KeyListener {
 		firstLevelButtons.add(quitLevel, c);
 
 		firstLevel.add(firstLevelButtons);
+		firstLevel.requestFocus();
+		firstLevel.setFocusable(true);
+		firstLevel.addKeyListener(this);
 
 		// implement keyPress + key release action listeners
 		// give quitLevel an option to return to level select screen
@@ -234,10 +237,13 @@ public class MainMenu implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_P) {
-			// make in a new class
+		if (firstLevelButtons.isVisible() == false) {
+			firstLevelButtons.setVisible(true);
+		} else if (firstLevelButtons.isVisible() == true) {
 			firstLevelButtons.setVisible(false);
 		}
+
+	}
 
 	}
 
