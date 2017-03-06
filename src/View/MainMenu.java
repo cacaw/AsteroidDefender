@@ -32,7 +32,7 @@ public class MainMenu implements KeyListener {
 	private static final long serialVersionUID = 1L;
 	private Font font = new Font("Times New Roman", Font.PLAIN, 55);
 	private JFrame frame;
-	private JPanel mainMenuPanel, mainMenuButtons, firstLevel, firstLevelButtons, controlsScreen, controlsScreenButtons;
+	private JPanel mainMenuPanel, mainMenuButtons, firstLevel, firstLevelButtons, controlsScreen, controlsScreenLabels;
 	private JButton start, quit, viewControls, selectLevel;
 	private int userConfirmationInput;
 	private GridBagConstraints c;
@@ -135,7 +135,7 @@ public class MainMenu implements KeyListener {
 		c = new GridBagConstraints();
 
 		firstLevelButtons = new JPanel();
-		JButton mainMenuLevel = new JButton("Main Menu");
+		JButton mainMenuReturn = new JButton("Main Menu");
 		JButton quitLevel = new JButton("Quit Level");
 		// utilize one panel - rebuilding / have class for it
 
@@ -144,13 +144,13 @@ public class MainMenu implements KeyListener {
 		firstLevelButtons.setOpaque(false);
 		firstLevelButtons.setLayout(new BoxLayout(firstLevelButtons, BoxLayout.Y_AXIS));
 
-		mainMenuLevel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		mainMenuLevel.setFont(font);
+		mainMenuReturn.setAlignmentX(Component.CENTER_ALIGNMENT);
+		mainMenuReturn.setFont(font);
 
 		quitLevel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		quitLevel.setFont(font);
 
-		firstLevelButtons.add(mainMenuLevel, c);
+		firstLevelButtons.add(mainMenuReturn, c);
 		firstLevelButtons.add(Box.createRigidArea(new Dimension(0, 50)));
 		firstLevelButtons.add(quitLevel, c);
 
@@ -161,12 +161,12 @@ public class MainMenu implements KeyListener {
 
 		// implement keyPress + key release action listeners
 		// give quitLevel an option to return to level select screen
-		mainMenuLevel.addActionListener(new ActionListener() {
+		mainMenuReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				userConfirmationInput = JOptionPane.showConfirmDialog(null, "Do you want to return to main menu?",
 						"Select desired option?", JOptionPane.YES_NO_CANCEL_OPTION);
 				if (userConfirmationInput == 0) {
-					mainMenuReturn(evt);
+					mainMenuReturnFromLevel(evt);
 				}
 
 			}
@@ -193,22 +193,57 @@ public class MainMenu implements KeyListener {
 		controlsScreen = new JPanel(new GridBagLayout());
 		c = new GridBagConstraints();
 
-		controlsScreenButtons = new JPanel();
+		controlsScreenLabels = new JPanel();
 		JLabel mainMenuControls = new JLabel("Controls");
-		// utilize one panel - rebuilding / have class for it
+		JLabel moveUpwards = new JLabel("To move Up, use the W key.");
+		JLabel moveLeft = new JLabel("To move Left, use the A key.");
+		JLabel moveDownwards = new JLabel("To move Down, use the S key.");
+		JLabel moveRight = new JLabel("To move Right, use the D key.");
+		JButton mainMenuReturn = new JButton("Main Menu");
 
 		controlsScreen.setBackground(Color.darkGray);
+		controlsScreenLabels.setOpaque(false);
+		controlsScreenLabels.setLayout(new BoxLayout(controlsScreenLabels, BoxLayout.Y_AXIS));
 
-		controlsScreenButtons.setOpaque(false);
-		controlsScreenButtons.setLayout(new BoxLayout(firstLevelButtons, BoxLayout.Y_AXIS));
-
-		mainMenuControls.setAlignmentX(Component.CENTER_ALIGNMENT);
 		mainMenuControls.setFont(font);
+		mainMenuControls.setForeground(Color.RED);
 
-		// controlsScreenButtons.add(mainMenuControls);
-		// controlsScreenButtons.add(Box.createRigidArea(new Dimension(0, 50)));
+		moveUpwards.setFont(font);
+		moveUpwards.setForeground(Color.RED);
 
-		// controlsScreen.add(firstLevelButtons);
+		moveDownwards.setFont(font);
+		moveDownwards.setForeground(Color.RED);
+
+		moveLeft.setFont(font);
+		moveLeft.setForeground(Color.RED);
+
+		moveRight.setFont(font);
+		moveRight.setForeground(Color.RED);
+
+		mainMenuReturn.setFont(font);
+		mainMenuReturn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				userConfirmationInput = JOptionPane.showConfirmDialog(null, "Do you want to return to main menu?",
+						"Select desired option?", JOptionPane.YES_NO_CANCEL_OPTION);
+				if (userConfirmationInput == 0) {
+					mainMenuReturnFromControls(evt);
+				}
+
+			}
+		});
+
+		controlsScreenLabels.add(mainMenuControls);
+		controlsScreenLabels.add(moveUpwards);
+		controlsScreenLabels.add(moveLeft);
+		controlsScreenLabels.add(moveDownwards);
+		controlsScreenLabels.add(moveRight);
+		controlsScreenLabels.add(Box.createRigidArea(new Dimension(0, 50)));
+		c.gridx = 0;
+		c.gridy = 0;
+		controlsScreen.add(controlsScreenLabels, c);
+		c.gridx = 0;
+		c.gridy = 1;
+		controlsScreen.add(mainMenuReturn, c);
 
 	}
 
@@ -223,7 +258,7 @@ public class MainMenu implements KeyListener {
 
 	}
 
-	private void mainMenuReturn(ActionEvent evt) {
+	private void mainMenuReturnFromLevel(ActionEvent evt) {
 		firstLevel.setVisible(false);
 		mainMenuPanel.setVisible(true);
 	}
@@ -239,8 +274,19 @@ public class MainMenu implements KeyListener {
 
 	}
 
-	private void viewControlsButtonEvent(ActionEvent evt) {
+	private void mainMenuReturnFromControls(ActionEvent evt) {
+		controlsScreen.setVisible(false);
+		mainMenuPanel.setVisible(true);
+	}
 
+	private void viewControlsButtonEvent(ActionEvent evt) {
+		userConfirmationInput = JOptionPane.showConfirmDialog(null, "Select desired option", "Are you certain?",
+				JOptionPane.YES_NO_CANCEL_OPTION);
+		if (userConfirmationInput == 0) {
+			controlsScreen.setVisible(true);
+			frame.getContentPane().add(controlsScreen);
+			mainMenuPanel.setVisible(false);
+		}
 	}
 
 	private void quitButtonEvent(ActionEvent evt) {
@@ -258,9 +304,11 @@ public class MainMenu implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		if (firstLevelButtons.isVisible() == false && e.getKeyCode() == KeyEvent.VK_P) {
 			firstLevelButtons.setVisible(true);
+			// timer.start (continue)
 
 		} else if (firstLevelButtons.isVisible() == true && e.getKeyCode() == KeyEvent.VK_P) {
 			firstLevelButtons.setVisible(false);
+			// timer.stop (pause)
 		}
 
 	}
@@ -270,12 +318,6 @@ public class MainMenu implements KeyListener {
 		// TODO Auto-generated method stub
 
 	}
-
-	public static void main(String[] args) throws IOException {
-		new MainMenu();
-	}
-
-}
     
 
     private ArrayList<Integer> actions;
