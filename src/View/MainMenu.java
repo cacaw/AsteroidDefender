@@ -21,13 +21,17 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class MainMenu implements KeyListener {
-	
+public class MainMenu extends JPanel implements KeyListener {
+
+	/**
+	 * 
+	 */
 	private Game game;
 	private static final long serialVersionUID = 1L;
 	private Font font = new Font("Times New Roman", Font.PLAIN, 55);
 	private JFrame frame;
-	private JPanel mainMenuPanel, mainMenuButtons, firstLevel, firstLevelButtons, controlsScreen, controlsScreenLabels;
+	private JPanel mainMenuPanel, mainMenuButtons, firstLevel, firstLevelButtons, controlsScreen, controlsScreenLabels,
+			levelSelectScreen;
 	private JButton start, quit, viewControls, selectLevel;
 	private int userConfirmationInput;
 	private GridBagConstraints c;
@@ -40,6 +44,7 @@ public class MainMenu implements KeyListener {
 		buildFrame();
 		buildLevel();
 		buildControlsScreen();
+		buildSelectLevelScreen();
 		initJButtons();
 		createLayout();
 		frame.pack();
@@ -50,7 +55,7 @@ public class MainMenu implements KeyListener {
 
 	private void createLayout() throws IOException {
 		c = new GridBagConstraints();
-		BufferedImage image = ImageIO.read(new File("Images/MainMenu.jpg"));
+		BufferedImage image = ImageIO.read(new File("MainMenu.jpg"));
 
 		mainMenuPanel = new JPanel(new GridBagLayout()) {
 
@@ -116,6 +121,7 @@ public class MainMenu implements KeyListener {
 			}
 
 		});
+
 	}
 
 	private void buildFrame() {
@@ -161,7 +167,7 @@ public class MainMenu implements KeyListener {
 				userConfirmationInput = JOptionPane.showConfirmDialog(null, "Do you want to return to main menu?",
 						"Select desired option?", JOptionPane.YES_NO_CANCEL_OPTION);
 				if (userConfirmationInput == 0) {
-					mainMenuReturnFromLevel(evt);
+					mainMenuReturnFromInsideLevel(evt);
 				}
 
 			}
@@ -182,9 +188,12 @@ public class MainMenu implements KeyListener {
 
 		});
 
+		firstLevelButtons.setVisible(false);
+
 	}
 
 	private void buildControlsScreen() {
+
 		controlsScreen = new JPanel(new GridBagLayout());
 		c = new GridBagConstraints();
 
@@ -194,6 +203,7 @@ public class MainMenu implements KeyListener {
 		JLabel moveLeft = new JLabel("To move Left, use the A key.");
 		JLabel moveDownwards = new JLabel("To move Down, use the S key.");
 		JLabel moveRight = new JLabel("To move Right, use the D key.");
+		JLabel pause = new JLabel("To Pause and UnPause the Game, use the P key.");
 		JButton mainMenuReturn = new JButton("Main Menu");
 
 		controlsScreen.setBackground(Color.darkGray);
@@ -215,6 +225,9 @@ public class MainMenu implements KeyListener {
 		moveRight.setFont(font);
 		moveRight.setForeground(Color.RED);
 
+		pause.setFont(font);
+		pause.setForeground(Color.RED);
+
 		mainMenuReturn.setFont(font);
 		mainMenuReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -232,6 +245,7 @@ public class MainMenu implements KeyListener {
 		controlsScreenLabels.add(moveLeft);
 		controlsScreenLabels.add(moveDownwards);
 		controlsScreenLabels.add(moveRight);
+		controlsScreenLabels.add(pause);
 		controlsScreenLabels.add(Box.createRigidArea(new Dimension(0, 50)));
 		c.gridx = 0;
 		c.gridy = 0;
@@ -239,6 +253,38 @@ public class MainMenu implements KeyListener {
 		c.gridx = 0;
 		c.gridy = 1;
 		controlsScreen.add(mainMenuReturn, c);
+
+	}
+
+	private void buildSelectLevelScreen() {
+		levelSelectScreen = new JPanel(new GridBagLayout());
+		JButton mainMenuReturn = new JButton("Main Menu");
+
+		levelSelectScreen.setBackground(Color.darkGray);
+		// Use Start Button for Level One
+		// Use Return to Main Menu Button
+		// need logic to find if a level has been completed or not
+		// need a way to state that a level has been completed in order to
+		// implement
+
+		mainMenuReturn.setFont(font);
+
+		levelSelectScreen.requestFocus();
+		levelSelectScreen.setFocusable(true);
+		levelSelectScreen.addKeyListener(this);
+
+		mainMenuReturn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				userConfirmationInput = JOptionPane.showConfirmDialog(null, "Do you want to return to main menu?",
+						"Select desired option?", JOptionPane.YES_NO_CANCEL_OPTION);
+				if (userConfirmationInput == 0) {
+					mainMenuReturnFromLevelSelect(evt);
+				}
+
+			}
+		});
+
+		levelSelectScreen.add(mainMenuReturn);
 
 	}
 
@@ -253,25 +299,37 @@ public class MainMenu implements KeyListener {
 
 	}
 
-	private void mainMenuReturnFromLevel(ActionEvent evt) {
+	private void mainMenuReturnFromInsideLevel(ActionEvent evt) {
 		firstLevel.setVisible(false);
 		mainMenuPanel.setVisible(true);
 	}
 
 	private void levelSelectReturn(ActionEvent e) {
-		// firstLevel.setVisible(false);
-		// level select screen visible true
+		// mainMenu.setVisible(true);
+		// level select screen visible false
 
 	}
 
 	private void selectLevelButtonEvent(ActionEvent evt) {
-		// TODO Auto-generated method stub
+		userConfirmationInput = JOptionPane.showConfirmDialog(null, "Select desired option", "Are you certain?",
+				JOptionPane.YES_NO_CANCEL_OPTION);
+		if (userConfirmationInput == 0) {
+			levelSelectScreen.setVisible(true);
+			frame.getContentPane().add(levelSelectScreen);
+			mainMenuPanel.setVisible(false);
+		}
 
 	}
 
 	private void mainMenuReturnFromControls(ActionEvent evt) {
 		controlsScreen.setVisible(false);
 		mainMenuPanel.setVisible(true);
+	}
+
+	private void mainMenuReturnFromLevelSelect(ActionEvent evt) {
+		levelSelectScreen.setVisible(false);
+		mainMenuPanel.setVisible(true);
+
 	}
 
 	private void viewControlsButtonEvent(ActionEvent evt) {
@@ -285,7 +343,12 @@ public class MainMenu implements KeyListener {
 	}
 
 	private void quitButtonEvent(ActionEvent evt) {
-		System.exit(0);
+
+		userConfirmationInput = JOptionPane.showConfirmDialog(null, "You will be exited.", "Exit?",
+				JOptionPane.YES_NO_CANCEL_OPTION);
+		if (userConfirmationInput == 0) {
+			System.exit(0);
+		}
 
 	}
 
@@ -307,6 +370,7 @@ public class MainMenu implements KeyListener {
 		}
 
 	}
+
 
 	@Override
 	public void keyReleased(KeyEvent e) {
