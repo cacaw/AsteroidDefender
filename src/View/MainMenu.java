@@ -31,7 +31,7 @@ public class MainMenu extends JPanel implements KeyListener {
 	private Font font = new Font("Times New Roman", Font.PLAIN, 55);
 	private JFrame frame;
 	private JPanel mainMenuPanel, mainMenuButtons, firstLevel, firstLevelButtons, controlsScreen, controlsScreenLabels,
-			levelSelectScreen;
+			levelSelectScreen, levelSelectScreenButtons;
 	private JButton start, quit, viewControls, selectLevel;
 	private int userConfirmationInput;
 	private GridBagConstraints c;
@@ -258,15 +258,28 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	private void buildSelectLevelScreen() {
 		levelSelectScreen = new JPanel(new GridBagLayout());
+		c = new GridBagConstraints();
+
+		levelSelectScreenButtons = new JPanel();
 		JButton mainMenuReturn = new JButton("Main Menu");
+		JButton firstLevel = new JButton("First Level");
+		JButton secondLevel = new JButton("Second Level");
+		JButton thirdLevel = new JButton("Third Level");
 
 		levelSelectScreen.setBackground(Color.darkGray);
+		levelSelectScreenButtons.setOpaque(false);
+		levelSelectScreenButtons.setLayout(new BoxLayout(levelSelectScreenButtons, BoxLayout.Y_AXIS));
 		// Use Start Button for Level One
 		// Use Return to Main Menu Button
 		// need logic to find if a level has been completed or not
 		// need a way to state that a level has been completed in order to
 		// implement
+		// setEnable(true) when the previous level has been cleared.
+		// second/third level need actionListeners
 
+		firstLevel.setFont(font);
+		secondLevel.setFont(font);
+		thirdLevel.setFont(font);
 		mainMenuReturn.setFont(font);
 
 		levelSelectScreen.requestFocus();
@@ -284,7 +297,17 @@ public class MainMenu extends JPanel implements KeyListener {
 			}
 		});
 
-		levelSelectScreen.add(mainMenuReturn);
+		secondLevel.setEnabled(false);
+		thirdLevel.setEnabled(false);
+
+		levelSelectScreenButtons.add(firstLevel);
+		levelSelectScreenButtons.add(Box.createRigidArea(new Dimension(0, 50)));
+		levelSelectScreenButtons.add(secondLevel);
+		levelSelectScreenButtons.add(Box.createRigidArea(new Dimension(0, 50)));
+		levelSelectScreenButtons.add(thirdLevel);
+		levelSelectScreenButtons.add(Box.createRigidArea(new Dimension(0, 50)));
+		levelSelectScreenButtons.add(mainMenuReturn);
+		levelSelectScreen.add(levelSelectScreenButtons);
 
 	}
 
