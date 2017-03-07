@@ -394,93 +394,90 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	}
 
-
 	@Override
 	public void keyReleased(KeyEvent e) {
-        actions.remove((Integer)e.getKeyCode());
-        
-        if(e.getKeyCode() == 80){
-            game.togglePause();
-        }
+		actions.remove((Integer) e.getKeyCode());
+
+		if (e.getKeyCode() == 80) {
+			game.togglePause();
+		}
 
 	}
-    
 
-    private ArrayList<Integer> actions;
-	
-    
-    //    public class ViewController implements Serializable,KeyListener{
-//    private int moveAmount = game.getPlayer().getShip().getxSpeed();
-    private int moveAmount = 5;
-    private int shieldSpeed = 5;
-    
-    public void RunActions() {
-        
-        int shipMove; // ship speed
-        actions = new ArrayList<>(); // i think this goes in the main layout method
-        
-        for (int i = 0; i < actions.size(); i++) {
-            if(actions.get(i).intValue() == game.getPlayer().getInputUP()) {
-                game.getPlayer().moveShipY(moveAmount, 0, 1000);
-            }else if (actions.get(i).intValue() == game.getPlayer().getInputLEFT()) {
-                game.getPlayer().moveShipX(moveAmount * -1, 0, 1000);
-            }else if (actions.get(i).intValue() == game.getPlayer().getInputDOWN()) {
-                game.getPlayer().moveShipY(moveAmount * -1, 0, 1000);
-            }else if (actions.get(i).intValue() == game.getPlayer().getInputRIGHT()) {
-                game.getPlayer().moveShipX(moveAmount, 0, 1000);
-            }else if (actions.get(i).intValue() == game.getPlayer().getInputCOUNTERCLOCKWISE()) {
-                game.getPlayer().moveShield(shieldSpeed);
-            }else if (actions.get(i).intValue() == game.getPlayer().getInputCLOCKWISE()) {
-                game.getPlayer().moveShield(shieldSpeed * -1);
-            }
-        }
-    }
-	
-	
+	private ArrayList<Integer> actions;
+
+	// public class ViewController implements Serializable,KeyListener{
+	// private int moveAmount = game.getPlayer().getShip().getxSpeed();
+	private int moveAmount = 5;
+	private int shieldSpeed = 5;
+
+	public void RunActions() {
+
+		int shipMove; // ship speed
+		actions = new ArrayList<>(); // i think this goes in the main layout
+										// method
+
+		for (int i = 0; i < actions.size(); i++) {
+			if (actions.get(i).intValue() == game.getPlayer().getInputUP()) {
+				game.getPlayer().moveShipY(moveAmount, 0, 1000);
+			} else if (actions.get(i).intValue() == game.getPlayer().getInputLEFT()) {
+				game.getPlayer().moveShipX(moveAmount * -1, 0, 1000);
+			} else if (actions.get(i).intValue() == game.getPlayer().getInputDOWN()) {
+				game.getPlayer().moveShipY(moveAmount * -1, 0, 1000);
+			} else if (actions.get(i).intValue() == game.getPlayer().getInputRIGHT()) {
+				game.getPlayer().moveShipX(moveAmount, 0, 1000);
+			} else if (actions.get(i).intValue() == game.getPlayer().getInputCOUNTERCLOCKWISE()) {
+				game.getPlayer().moveShield(shieldSpeed);
+			} else if (actions.get(i).intValue() == game.getPlayer().getInputCLOCKWISE()) {
+				game.getPlayer().moveShield(shieldSpeed * -1);
+			}
+		}
+	}
+
 	public JFrame getFrame() {
 		return frame;
 	}
-	
+
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
 	}
-	
+
 	public JPanel getMainMenu() {
 		return mainMenuPanel;
 	}
-	
+
 	public void setMainMenu(JPanel mainMenu) {
 		this.mainMenuPanel = mainMenu;
 	}
-	
+
 	public JPanel getMainMenuButtons() {
 		return mainMenuButtons;
 	}
-	
+
 	public void setMainMenuButtons(JPanel mainMenuButtons) {
 		this.mainMenuButtons = mainMenuButtons;
 	}
-	
+
 	public JPanel getFirstLevel() {
 		return firstLevel;
 	}
-	
+
 	public void setFirstLevel(JPanel firstLevel) {
 		this.firstLevel = firstLevel;
 	}
-	
+
 	public JPanel getFirstLevelButtons() {
 		return firstLevelButtons;
 	}
-	
+
 	public void setFirstLevelButtons(JPanel firstLevelButtons) {
 		this.firstLevelButtons = firstLevelButtons;
 	}
-	
+
 	public Game getGame() {
 		return game;
 	}
-	
+
 	public void setGame(Game game) {
 		this.game = game;
 	}
