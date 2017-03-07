@@ -23,8 +23,8 @@ public class Asteroid implements Collidable{
 	//private Vector velocity;
 	private JPanel game;
 	private ArrayList<Asteroid> field;
-	private Ship ship;
 	private Color myC = Color.WHITE;
+	private Player myPlayer;
 	public Asteroid()
 	{
 		
@@ -38,8 +38,9 @@ public class Asteroid implements Collidable{
 	 * @param maxVel
 	 * @param myField
 	 */
-	public Asteroid(int size,int x, int y, int minVel, int maxVel, ArrayList<Asteroid> myField,JPanel game)
+	public Asteroid(int size,int x, int y, int minVel, int maxVel, ArrayList<Asteroid> myField,JPanel game,Player isPlayer)
 	{
+		myPlayer = isPlayer;
 		this.setX(x);
 		this.setY(y);
 		this.setAstSize(size);
@@ -55,29 +56,25 @@ public class Asteroid implements Collidable{
 	 * Sets a pseudo random velocity for the xvel and yvel 
 	 */
 	private void setVel(Random rndm, int minVel, int maxVel) {
-		/*for(int i=0; i<2; i++)
-		{
-			if(rndm.nextBoolean() && i%2 == 0)
+		
+			if(rndm.nextBoolean())
 			{
 				this.setXvel(rndm.nextInt(maxVel-minVel)+minVel);
 			}
-			else if(i%2==0)
+			else
 			{
 				this.setXvel(-1*rndm.nextInt(maxVel-minVel)+minVel);
 			}
 			
-			if(rndm.nextBoolean() && i%2 == 1)
+			if(rndm.nextBoolean())
 			{
 				this.setYvel(rndm.nextInt(maxVel-minVel)+minVel);
 			}
-			else if(i%2==1)
+			else
 			{
 				this.setYvel(-1*rndm.nextInt(maxVel-minVel)+minVel);
 			}
-				
-		}*/
-		this.setXvel(minVel);
-		this.setY(0);
+		//this.setYvel(minVel);
 		
 	}
 	/**
@@ -88,8 +85,6 @@ public class Asteroid implements Collidable{
 		//super.paint(g);
 		g.setColor(myC);
 		g.fillOval(this.getX(),this.getY(), astSize, astSize);
-		
-		
 	}
 	/**
 	 * @return the game
@@ -135,7 +130,6 @@ public class Asteroid implements Collidable{
 	public int getHealth() {
 		return health;
 	}
-
 	/**
 	 * @param health the health to set
 	 */
@@ -170,26 +164,12 @@ public class Asteroid implements Collidable{
 	public void setY(int y) {
 		this.y = y;
 	}
-
-	/**
-	 * @return the velocity
-	 */
-	/*public Vector getVelocity() {
-		return velocity;
-	}*/
-
-	/**
-	 * @param velocity the velocity to set
-	 */
-	/*
-	public void setVelocity(Vector velocity) {
-		this.velocity = velocity;
-	}*/
 	/**
 	 * moves the asteroid according to the xvel and yvel values and changes those values based on collision
+	 * @throws InterruptedException 
 	 */
 
-	public void move() {
+	public void move() throws InterruptedException {
 		if (x + xvel > game.getWidth() - astSize|| x+xvel<0)
 		{
 			//bounce x of the sides
@@ -197,20 +177,19 @@ public class Asteroid implements Collidable{
 		}
 		if (y + yvel > game.getHeight() - astSize||y + yvel < 0)
 		{
-			yvel *=-1;;
+			yvel *=-1;
 		}
 		// the cases of collision for an asteroid from the vertical or horizontal
 		if (collision() == 1){
 			xvel *= -1;
-			myC = Color.RED;
 		}
 		if(collision() == 2)
 		{
 			yvel *= -1;
 		}
-		
 		x = x + xvel;
 		y = y + yvel;
+		
 	}
 	/**
 	 * @return the yvel
@@ -244,24 +223,23 @@ public class Asteroid implements Collidable{
 	 * @param colliding
 	 * @return a boolean if the collision happens on the left or right sides
 	 */
-	private boolean hCollide(Asteroid colliding)
+	private boolean hCollide(Collidable colliding)
 	{
-		return (this.getY()> (colliding.getY()-(this.getAstSize()+this.getY())) &&
-				this.getY() < (colliding.getAstSize()+colliding.getY()+this.getAstSize())&&
-				(this.getX()>= colliding.getX()+colliding.getAstSize()||
-				this.getX()+this.getAstSize()<=colliding.getX()));
+		return this.getBounds().intersects(colliding.getBounds());
 	}
 	/**
 	 * 
 	 * @param colliding
-	 * @return a boolean if the collision happens on the top or bottom
+	 * @return a boolean if the collision happens on the left or right sides
 	 */
-	private boolean vCollide(Asteroid colliding)
+	private boolean vCollide(Collidable colliding)
 	{
-		return (this.getX()> (colliding.getX()-(this.getAstSize()+this.getX())) &&
-				this.getX() < (colliding.getAstSize()+colliding.getX()+this.getAstSize())&&
-				(this.getY()>= colliding.getY()+colliding.getAstSize()||
-				this.getY()+this.getAstSize()<=colliding.getY()));
+		if(colliding instanceof Asteroid)
+		{
+			Asteroid col = (Asteroid)colliding;
+			return this.getBounds(astSize + astSize/16).intersects(col.getBounds(astSize + astSize/16));
+		}
+		return this.getBounds().intersects(colliding.getBounds());
 	}
 	/**
 	 * 
@@ -272,51 +250,53 @@ public class Asteroid implements Collidable{
 	 * 4 - collision with the ship
 	 */
 	private int collision() {
-
 		for(Asteroid colliding : field)
 		{
 			if(colliding != this)
 			{
-				if(this.getBounds().intersects(colliding.getBounds())&& hCollide(colliding))
-				{
-					myC=Color.RED;
+				if(hCollide(colliding))
+				{	
 					return 1;
 				}
-				if(this.getBounds().intersects(colliding.getBounds())&& vCollide(colliding))
+				if(vCollide(colliding))
 				{
 					return 2;
 				}
 			}
 			//colliding with the ship
-			if(shipCollision(ship))
+			if(shipCollision(myPlayer.getShip().getBounds))
 			{
 				return 3;
 			}
 			//colliding with the shield
-			if(shieldCollision(ship))
+			if(shieldCollision(myPlayer.getShield().getBounds())
 			{
 				return 4;
 			}
 		}
+		
 		return 0;
 	}
 	private boolean shipCollision(Collidable colliding)
 	{
 		boolean hit = false;
-		/*if(this.getBounds().intersects(colliding.getBounds()) && colliding instanceof Ship)
+		if(this.getBounds().intersects(colliding.getBounds()) && colliding instanceof Ship)
 		{
 			Ship myShip= (Ship)colliding;
 			myShip.setHealth(myShip.getHealth()-this.getHealth());
 			field.remove(this);
-			
-		}*/
+		}
 		return hit;
 	}
 	
 	private boolean shieldCollision(Collidable colliding)
 	{
 		boolean hit = false;
-		
+		if(this.getBounds().intersects(colliding.getBounds())&& colliding instanceof Shield)
+		{
+			hit = true;
+			health-=1;
+		}
 		return hit;
 	}
 	
@@ -326,5 +306,7 @@ public class Asteroid implements Collidable{
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, astSize, astSize);
 	}
-	
+	public Rectangle getBounds(int size) {
+		return new Rectangle(x, y, size, size);
+	}
 }
