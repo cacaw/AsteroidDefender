@@ -8,8 +8,8 @@ import java.awt.*;
 public class Ship implements Collidable{
     
     //declare size of ship
-    private int height = 2;
-    private int width = 1;
+    private int height = 50;
+    private int width = 25;
     
     //2d location variables
     private int X;

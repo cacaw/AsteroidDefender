@@ -19,12 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class MainMenu implements KeyListener {
 	
@@ -55,7 +50,7 @@ public class MainMenu implements KeyListener {
 
 	private void createLayout() throws IOException {
 		c = new GridBagConstraints();
-		BufferedImage image = ImageIO.read(new File("MainMenu.jpg"));
+		BufferedImage image = ImageIO.read(new File("Images/MainMenu.jpg"));
 
 		mainMenuPanel = new JPanel(new GridBagLayout()) {
 
@@ -315,7 +310,11 @@ public class MainMenu implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+        actions.remove((Integer)e.getKeyCode());
+        
+        if(e.getKeyCode() == 80){
+            game.togglePause();
+        }
 
 	}
     
@@ -324,8 +323,8 @@ public class MainMenu implements KeyListener {
 	
     
     //    public class ViewController implements Serializable,KeyListener{
-//        private final int PANEL_MOVE_AMOUNT = 10;
-    private int moveAmount = game.getPlayer().getShip().getxSpeed();
+//    private int moveAmount = game.getPlayer().getShip().getxSpeed();
+    private int moveAmount = 5;
     private int shieldSpeed = 5;
     
     public void RunActions() {
@@ -360,11 +359,11 @@ public class MainMenu implements KeyListener {
 	}
 	
 	public JPanel getMainMenu() {
-		return mainMenu;
+		return mainMenuPanel;
 	}
 	
 	public void setMainMenu(JPanel mainMenu) {
-		this.mainMenu = mainMenu;
+		this.mainMenuPanel = mainMenu;
 	}
 	
 	public JPanel getMainMenuButtons() {
