@@ -218,9 +218,20 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	}
 
-	private void buildControlsScreen() {
+	private void buildControlsScreen() throws IOException{
+		BufferedImage ctrl = ImageIO.read(new File("Images/controlScreen.jpg"));
+		controlsScreen = new JPanel(new GridBagLayout()) {
 
-		controlsScreen = new JPanel(new GridBagLayout());
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(ctrl, 0, 0, getWidth(), getHeight(), this);
+			}
+			
+		};
+		
 		c = new GridBagConstraints();
 
 		controlsScreenLabels = new JPanel();
@@ -232,27 +243,27 @@ public class MainMenu extends JPanel implements KeyListener {
 		JLabel pause = new JLabel("To Pause and UnPause the Game, use the P key.");
 		JButton mainMenuReturn = new JButton("Main Menu");
 
-		controlsScreen.setBackground(Color.darkGray);
 		controlsScreenLabels.setOpaque(false);
 		controlsScreenLabels.setLayout(new BoxLayout(controlsScreenLabels, BoxLayout.Y_AXIS));
 
 		mainMenuControls.setFont(font);
-		mainMenuControls.setForeground(Color.RED);
+		mainMenuControls.setAlignmentX(CENTER_ALIGNMENT);
+		mainMenuControls.setForeground(Color.PINK);
 
 		moveUpwards.setFont(font);
-		moveUpwards.setForeground(Color.RED);
+		moveUpwards.setForeground(Color.CYAN);
 
 		moveDownwards.setFont(font);
-		moveDownwards.setForeground(Color.RED);
+		moveDownwards.setForeground(Color.GREEN);
 
 		moveLeft.setFont(font);
-		moveLeft.setForeground(Color.RED);
+		moveLeft.setForeground(Color.MAGENTA);
 
 		moveRight.setFont(font);
-		moveRight.setForeground(Color.RED);
+		moveRight.setForeground(Color.ORANGE);
 
 		pause.setFont(font);
-		pause.setForeground(Color.RED);
+		pause.setForeground(Color.WHITE);
 
 		mainMenuReturn.setFont(font);
 		mainMenuReturn.addActionListener(new ActionListener() {
@@ -282,8 +293,21 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	}
 
-	private void buildSelectLevelScreen() {
-		levelSelectScreen = new JPanel(new GridBagLayout());
+	private void buildSelectLevelScreen() throws IOException {
+		BufferedImage lvlSlt = ImageIO.read(new File("Images/levelSelect.jpg"));
+		
+		levelSelectScreen = new JPanel(new GridBagLayout()) {
+			
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(lvlSlt, 0, 0, getWidth(), getHeight(), this);
+			}
+			
+		};
+				
 		c = new GridBagConstraints();
 
 		levelSelectScreenButtons = new JPanel();
