@@ -297,8 +297,7 @@ public class Asteroid implements Collidable, ImageObserver {
 	private boolean shipCollision(Collidable colliding) {
 		boolean hit = false;
 		if (this.getBounds().intersects(colliding.getBounds()) && colliding instanceof Ship) {
-			Ship myShip = (Ship) colliding;
-			myShip.setHealth(myShip.getHealth() - this.getHealth());
+			myPlayer.getShip().setHealth(myPlayer.getShip().getHealth() - this.getHealth());
 			field.remove(this);
 		}
 		return hit;
