@@ -264,12 +264,12 @@ public class Asteroid implements Collidable{
 				}
 			}
 			//colliding with the ship
-			if(shipCollision(myPlayer.getShip().getBounds))
+			if(shipCollision((Collidable) myPlayer.getShip().getBounds()))
 			{
 				return 3;
 			}
 			//colliding with the shield
-			if(shieldCollision(myPlayer.getShield().getBounds())
+			if(shieldCollision((Collidable) myPlayer.getShield().getBounds()))
 			{
 				return 4;
 			}

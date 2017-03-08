@@ -98,7 +98,7 @@ public class Game {
     private boolean checkLevelBeat() {
         
         // checks to see if the player survived the timeer or if the ships health reaches 0
-        if (levelTime == 0 || player.getShip().getHealth() == 0) {
+        if (levelTime == 0) {
             return true;
         }
         return false;
