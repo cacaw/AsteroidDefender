@@ -30,11 +30,15 @@ public class MainMenu extends JPanel implements KeyListener {
 	private static final long serialVersionUID = 1L;
 	private Font font = new Font("Times New Roman", Font.PLAIN, 55);
 	private JFrame frame;
-	private JPanel mainMenuPanel, mainMenuButtons, firstLevel, firstLevelButtons, controlsScreen, controlsScreenLabels,
-			levelSelectScreen, levelSelectScreenButtons;
+	private JPanel mainMenuPanel, mainMenuButtons, firstLevelScreen, firstLevelButtons, controlsScreen,
+			controlsScreenLabels, levelSelectScreen, levelSelectScreenButtons;
 	private JButton start, quit, viewControls, selectLevel;
 	private int userConfirmationInput;
 	private GridBagConstraints c;
+
+	public static void main(String[] args) throws IOException {
+		new MainMenu();
+	}
 
 	public MainMenu() throws IOException {
 		initComponents();
@@ -392,6 +396,7 @@ public class MainMenu extends JPanel implements KeyListener {
 		// TODO Auto-generated method stub
 
 	}
+
 
 	@Override
 	public void keyPressed(KeyEvent e) {
