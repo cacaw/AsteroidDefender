@@ -79,7 +79,7 @@ public class Asteroid implements Collidable, ImageObserver {
 	 * 
 	 * @param g
 	 */
-	public void paint(Graphics g) {
+	public void paint(Graphics g)throws IOException {
 		rock = ImageIO.read(new File("Images/asteroid.png"));
 		g.drawImage(rock, getX(), getY(), astSize, astSize, this);
 	}
