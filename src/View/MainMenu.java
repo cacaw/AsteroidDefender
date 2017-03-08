@@ -61,7 +61,7 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	private void createLayout() throws IOException {
 		c = new GridBagConstraints();
-		BufferedImage image = ImageIO.read(new File("MainMenu.jpg"));
+		BufferedImage image = ImageIO.read(new File("Images/MainMenu.jpg"));
 
 		mainMenuPanel = new JPanel(new GridBagLayout()) {
 
@@ -162,6 +162,8 @@ public class MainMenu extends JPanel implements KeyListener {
 		JButton quitLevel = new JButton("Quit Level");
 		// utilize one panel - rebuilding / have class for it
 
+        
+        
 		//firstLevelScreen.setBackground(Color.darkGray);
 		g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
 
@@ -495,11 +497,11 @@ public class MainMenu extends JPanel implements KeyListener {
 	}
 
 	public JPanel getFirstLevel() {
-		return firstLevel;
+		return firstLevelScreen;
 	}
 
 	public void setFirstLevel(JPanel firstLevel) {
-		this.firstLevel = firstLevel;
+		this.firstLevelScreen = firstLevel;
 	}
 
 	public JPanel getFirstLevelButtons() {

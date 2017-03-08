@@ -29,9 +29,9 @@ public class Level1 extends JPanel implements Serializable, ActionListener{
     public void paint(Graphics g) {
         super.paint(g);
         
-        
         g.setColor(Color.black);
-        g.fillRect(0, 0, this.mainView.getFrame().getWidth(), this.mainView.getFrame(),getHeight());
+//        g.fillRect(0, 0, this.mainView.getFrame().getWidth(), this.mainView.getFrame(),getHeight());
+        g.fillRect(0, 0, 1000, 1000);
         
         this.G2 = (Graphics2D) g;
     
