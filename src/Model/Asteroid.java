@@ -48,7 +48,7 @@ public class Asteroid implements Collidable{
 		this.setVel(rndm,minVel,maxVel);
 		this.setGame(game);
 		this.setField(myField);
-		health = size/10;
+		health = 3;
 		//this.setVisible(true);
 	}
 	
@@ -310,6 +310,10 @@ public class Asteroid implements Collidable{
 		{
 			hit = true;
 			health-=1;
+			if(health == 0)
+			{
+				field.remove(this);
+			}
 		}
 		return hit;
 	}
