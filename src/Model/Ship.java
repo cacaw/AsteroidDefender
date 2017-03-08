@@ -1,11 +1,14 @@
 package Model;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.BufferedReader;
 
 /**
  * Created by Patricki on 2/25/2017.
  */
-public class Ship implements Collidable{
+public class Ship implements Collidable {
     
     //declare size of ship
     private int height = 50;

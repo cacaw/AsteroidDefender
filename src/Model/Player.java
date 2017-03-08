@@ -1,12 +1,23 @@
 package Model;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.File;
+import java.io.IOException;
+
 /**
  * Created by Patricki on 2/25/2017.
  */
-public class Player {
+public class Player implements ImageObserver {
     
     private Ship ship;
     private Shield shield;
+    
+    private BufferedImage shp;
+    private BufferedImage shld;
+    private Color myC = Color.white;
     
     public Player(){
         shield = new Shield();
@@ -156,6 +167,19 @@ public class Player {
          */
     }
     
+    public void paint(Graphics g) throws IOException {
+        //super.paint(g);
+        shp = ImageIO.read(new File("Images/orangeship.png"));
+//        g.setColor(myC);
+//        g.fillOval(this.ship.getX(),this.ship.getY(), ship.getWidth(), shield.getHeight());
+        g.drawImage(shp, ship.getX(), ship.getY(), ship.getWidth(), shield.getHeight(), this);
+        
+        shld = ImageIO.read(new File("Images/shield.png"));
+//        g.setColor(myC);
+//        g.fillRect(this.shield.getX(), this.shield.getY(), shield.getWidth(), shield.getHeight());
+        g.drawImage(shld, shield.getX(), shield.getY(), shield.getWidth(), shield.getHeight(), this);
+    }
+    
     public Ship getShip() {
         return ship;
     }
@@ -218,5 +242,10 @@ public class Player {
     
     public void setInputCLOCKWISE(int inputCLOCKWISE) {
         this.inputCLOCKWISE = inputCLOCKWISE;
+    }
+    
+    @Override
+    public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+        return false;
     }
 }

@@ -34,10 +34,12 @@ public class Level1 extends JPanel implements Serializable, ActionListener{
         g.fillRect(0, 0, 1000, 1000);
         
         this.G2 = (Graphics2D) g;
+        
+        G2.setColor(Color.white);
     
         ArrayList<Asteroid> field = mainView.getGame().getAsteroids();
             for (Asteroid rock: field){
-                rock.paint(g);
+//                rock.paint(g);
 //                asteroid<i> = this.mainView.getGame().getAsteroid();
 //                asteroid.get(i).paint(g);
             }

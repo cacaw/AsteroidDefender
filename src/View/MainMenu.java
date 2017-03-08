@@ -1,5 +1,7 @@
 package View;
 
+import Controller.Game;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -42,9 +44,9 @@ public class MainMenu extends JPanel implements KeyListener {
 	private int userConfirmationInput;
 	private GridBagConstraints c;
 
-	public static void main(String[] args) throws IOException {
-		new MainMenu();
-	}
+//	public static void main(String[] args) throws IOException {
+//		new MainMenu();
+//	}
 
 	public MainMenu() throws IOException {
 		initComponents();
@@ -65,7 +67,7 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	private void createLayout() throws IOException {
 		c = new GridBagConstraints();
-		BufferedImage image = ImageIO.read(new File("MainMenu.jpg"));
+		BufferedImage image = ImageIO.read(new File("Images/MainMenu.jpg"));
 
 		mainMenuPanel = new JPanel(new GridBagLayout()) {
 
