@@ -1,7 +1,5 @@
 package View;
 
-import Controller.Game;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -21,12 +19,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class MainMenu extends JPanel implements KeyListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private Game game;
 	private static final long serialVersionUID = 1L;
@@ -138,23 +142,23 @@ public class MainMenu extends JPanel implements KeyListener {
 	}
 
 	private void buildLevel() {
-		Image img = Toolkit.getDefaultToolkit().getImage("Images/SpaceBackground.gif");
-		
+		Image img = Toolkit.getDefaultToolkit().getImage("SpaceBackground.gif");
+
 		firstLevelScreen = new JPanel(new GridBagLayout()) {
 
 			/**
-			 * 
+			 *
 			 */
 			private static final long serialVersionUID = 1L;
-			
+
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
 			}
-			
+
 		};
-		
+
 		c = new GridBagConstraints();
 
 		firstLevelButtons = new JPanel();
@@ -162,8 +166,7 @@ public class MainMenu extends JPanel implements KeyListener {
 		JButton quitLevel = new JButton("Quit Level");
 		// utilize one panel - rebuilding / have class for it
 
-		//firstLevelScreen.setBackground(Color.darkGray);
-		g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		// firstLevelScreen.setBackground(Color.darkGray);
 
 		firstLevelButtons.setOpaque(false);
 		firstLevelButtons.setLayout(new BoxLayout(firstLevelButtons, BoxLayout.Y_AXIS));
@@ -357,6 +360,7 @@ public class MainMenu extends JPanel implements KeyListener {
 	}
 
 	private void mainMenuReturnFromInsideLevel(ActionEvent evt) {
+		firstLevelButtons.setVisible(false);
 		firstLevelScreen.setVisible(false);
 		mainMenuPanel.setVisible(true);
 	}
@@ -416,27 +420,25 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	}
 
-
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (firstLevelButtons.isVisible() == false && e.getKeyCode() == KeyEvent.VK_P) {
 			firstLevelButtons.setVisible(true);
 			// timer.start (continue)
+			// game.togglePause();
 
 		} else if (firstLevelButtons.isVisible() == true && e.getKeyCode() == KeyEvent.VK_P) {
 			firstLevelButtons.setVisible(false);
 			// timer.stop (pause)
+			// game.togglePause();
+			// actions.remove((Integer) e.getKeyCode());
+
 		}
 
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		actions.remove((Integer) e.getKeyCode());
-
-		if (e.getKeyCode() == 80) {
-			game.togglePause();
-		}
 
 	}
 
@@ -451,7 +453,7 @@ public class MainMenu extends JPanel implements KeyListener {
 
 		int shipMove; // ship speed
 		actions = new ArrayList<>(); // i think this goes in the main layout
-										// method
+		// method
 
 		for (int i = 0; i < actions.size(); i++) {
 			if (actions.get(i).intValue() == game.getPlayer().getInputUP()) {
@@ -495,11 +497,11 @@ public class MainMenu extends JPanel implements KeyListener {
 	}
 
 	public JPanel getFirstLevel() {
-		return firstLevel;
+		return firstLevelScreen;
 	}
 
 	public void setFirstLevel(JPanel firstLevel) {
-		this.firstLevel = firstLevel;
+		this.firstLevelScreen = firstLevel;
 	}
 
 	public JPanel getFirstLevelButtons() {
