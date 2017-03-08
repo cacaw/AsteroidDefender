@@ -55,7 +55,7 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	private void createLayout() throws IOException {
 		c = new GridBagConstraints();
-		BufferedImage image = ImageIO.read(new File("Images/MainMenu.jpg"));
+		BufferedImage image = ImageIO.read(new File("MainMenu.jpg"));
 
 		mainMenuPanel = new JPanel(new GridBagLayout()) {
 
@@ -132,7 +132,7 @@ public class MainMenu extends JPanel implements KeyListener {
 	}
 
 	private void buildLevel() {
-		firstLevel = new JPanel(new GridBagLayout());
+		firstLevelScreen = new JPanel(new GridBagLayout());
 		c = new GridBagConstraints();
 
 		firstLevelButtons = new JPanel();
@@ -140,7 +140,7 @@ public class MainMenu extends JPanel implements KeyListener {
 		JButton quitLevel = new JButton("Quit Level");
 		// utilize one panel - rebuilding / have class for it
 
-		firstLevel.setBackground(Color.darkGray);
+		firstLevelScreen.setBackground(Color.darkGray);
 
 		firstLevelButtons.setOpaque(false);
 		firstLevelButtons.setLayout(new BoxLayout(firstLevelButtons, BoxLayout.Y_AXIS));
@@ -155,10 +155,10 @@ public class MainMenu extends JPanel implements KeyListener {
 		firstLevelButtons.add(Box.createRigidArea(new Dimension(0, 50)));
 		firstLevelButtons.add(quitLevel, c);
 
-		firstLevel.add(firstLevelButtons);
-		firstLevel.requestFocus();
-		firstLevel.setFocusable(true);
-		firstLevel.addKeyListener(this);
+		firstLevelScreen.add(firstLevelButtons);
+		firstLevelScreen.requestFocus();
+		firstLevelScreen.setFocusable(true);
+		firstLevelScreen.addKeyListener(this);
 
 		// implement keyPress + key release action listeners
 		// give quitLevel an option to return to level select screen
@@ -181,7 +181,7 @@ public class MainMenu extends JPanel implements KeyListener {
 						"Do you want to return to level select screen?", "Select desired option",
 						JOptionPane.YES_NO_CANCEL_OPTION);
 				if (userConfirmationInput == 0) {
-					levelSelectReturn(e);
+					quitLevelReturnToLevelSelect(e);
 				}
 
 			}
@@ -286,6 +286,15 @@ public class MainMenu extends JPanel implements KeyListener {
 		levelSelectScreen.setFocusable(true);
 		levelSelectScreen.addKeyListener(this);
 
+		firstLevel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				startButtonEvent(e);
+
+			}
+		});
+
 		mainMenuReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				userConfirmationInput = JOptionPane.showConfirmDialog(null, "Do you want to return to main menu?",
@@ -315,22 +324,25 @@ public class MainMenu extends JPanel implements KeyListener {
 		userConfirmationInput = JOptionPane.showConfirmDialog(null, "Select desired option", "Are you certain?",
 				JOptionPane.YES_NO_CANCEL_OPTION);
 		if (userConfirmationInput == 0) {
-			firstLevel.setVisible(true);
-			frame.getContentPane().add(firstLevel);
 			mainMenuPanel.setVisible(false);
+			levelSelectScreen.setVisible(false);
+			firstLevelScreen.setVisible(true);
+			frame.getContentPane().add(firstLevelScreen);
+
 		}
 
 	}
 
 	private void mainMenuReturnFromInsideLevel(ActionEvent evt) {
-		firstLevel.setVisible(false);
+		firstLevelScreen.setVisible(false);
 		mainMenuPanel.setVisible(true);
 	}
 
-	private void levelSelectReturn(ActionEvent e) {
-		// mainMenu.setVisible(true);
-		// level select screen visible false
-
+	private void quitLevelReturnToLevelSelect(ActionEvent e) {
+		firstLevelButtons.setVisible(false);
+		firstLevelScreen.setVisible(false);
+		levelSelectScreen.setVisible(true);
+		frame.getContentPane().add(levelSelectScreen);
 	}
 
 	private void selectLevelButtonEvent(ActionEvent evt) {
