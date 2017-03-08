@@ -24,7 +24,6 @@ public class Asteroid implements Collidable, ImageObserver {
 	private int y;
 	private int yvel;
 	private int xvel;
-	// private Vector velocity;
 	private JPanel game;
 	private ArrayList<Asteroid> field;
 	private BufferedImage rock;
@@ -55,7 +54,6 @@ public class Asteroid implements Collidable, ImageObserver {
 		this.setGame(game);
 		this.setField(myField);
 		health = 3;
-		// this.setVisible(true);
 	}
 
 	/**
@@ -74,19 +72,15 @@ public class Asteroid implements Collidable, ImageObserver {
 		} else {
 			this.setYvel(-1 * rndm.nextInt(maxVel - minVel) + minVel);
 		}
-		// this.setYvel(minVel);
-
 	}
 
 	/**
-	 * paints a circle that represents an asteroid
+	 * paints an image that represents an asteroid
 	 * 
 	 * @param g
 	 */
 	public void paint(Graphics g) {
-		// super.paint(g);
 		rock = ImageIO.read(new File("Images/asteroid.png"));
-		// g.fillOval(this.getX(),this.getY(), astSize, astSize);
 		g.drawImage(rock, getX(), getY(), astSize, astSize, this);
 	}
 
@@ -270,29 +264,29 @@ public class Asteroid implements Collidable, ImageObserver {
 	private int collision() {
 		for (Asteroid colliding : field) {
 			if (colliding != this) {
-				if (hCollide(colliding)) {
-					return 1;
-				}
 				if (vCollide(colliding)) {
 					return 2;
+				}
+				if (hCollide(colliding)) {
+					return 1;
 				}
 			}
 			// colliding with the ship
 			if (shipCollision((Collidable) myPlayer.getShip().getBounds())) {
-				if (hCollide(colliding)) {
-					return 1;
-				}
 				if (vCollide(colliding)) {
 					return 2;
+				}
+				if (hCollide(colliding)) {
+					return 1;
 				}
 			}
 			// colliding with the shield
 			if (shieldCollision((Collidable) myPlayer.getShield().getBounds())) {
-				if (hCollide(colliding)) {
-					return 1;
-				}
 				if (vCollide(colliding)) {
 					return 2;
+				}
+				if (hCollide(colliding)) {
+					return 1;
 				}
 			}
 		}
@@ -323,13 +317,22 @@ public class Asteroid implements Collidable, ImageObserver {
 	}
 
 	/**
-	 * 
+	 * returns a rectangle that is represents the bounds of the object and is then used for collision detection
 	 */
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, astSize, astSize);
 	}
-
+	/**
+	 * intakes a int that can be used to modify the bounds of the rectangle so vertical collsion is more appropriate
+	 * @param size
+	 */
 	public Rectangle getBounds(int size) {
 		return new Rectangle(x, y, size, size);
+	}
+	
+	@Override
+	public boolean imageUpdate(Image arg0, int arg1, int arg2, int arg3, int arg4, int arg5) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
