@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -135,9 +137,24 @@ public class MainMenu extends JPanel implements KeyListener {
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
-	private void buildLevel(Graphics g) {
-		BufferedImage img = ImageIO.read(new File("spacebg.gif"));
-		firstLevelScreen = new JPanel(new GridBagLayout());
+	private void buildLevel() {
+		Image img = Toolkit.getDefaultToolkit().getImage("Images/SpaceBackground.gif");
+		
+		firstLevelScreen = new JPanel(new GridBagLayout()) {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+			}
+			
+		};
+		
 		c = new GridBagConstraints();
 
 		firstLevelButtons = new JPanel();
