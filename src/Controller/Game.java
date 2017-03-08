@@ -54,10 +54,12 @@ public class Game {
         
         //set positions for asteroids
         //TODO randominzing method for asteroid starting placement
-        for(int i = 0; i < asteroidRay.length; i++) {
-            asteroidRay[i] = new Asteroid();
-            asteroidRay[i].setX(((ui.getFrame().getWidth())));
-            asteroidRay[i].setY(((ui.getFrame().getHeight())));
+        int x = 100;
+        int y = 100;
+        for(int i = 0; i < 5; i++) {
+            asteroids.add(new Asteroid(80,x,y, 20, 25, asteroids, ui.getFirstLevel(), player));
+            x+=100;
+            y+=100;
         }
         
         //TODO timer for movement
@@ -98,7 +100,7 @@ public class Game {
     private boolean checkLevelBeat() {
         
         // checks to see if the player survived the timeer or if the ships health reaches 0
-        if (levelTime == 0) {
+        if (levelTime == 0 || player.getShip().getHealth() == 0) {
             return true;
         }
         return false;
