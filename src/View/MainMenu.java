@@ -135,7 +135,8 @@ public class MainMenu extends JPanel implements KeyListener {
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
-	private void buildLevel() {
+	private void buildLevel(Graphics g) {
+		BufferedImage img = ImageIO.read(new File("spacebg.gif"));
 		firstLevelScreen = new JPanel(new GridBagLayout());
 		c = new GridBagConstraints();
 
@@ -144,7 +145,8 @@ public class MainMenu extends JPanel implements KeyListener {
 		JButton quitLevel = new JButton("Quit Level");
 		// utilize one panel - rebuilding / have class for it
 
-		firstLevelScreen.setBackground(Color.darkGray);
+		//firstLevelScreen.setBackground(Color.darkGray);
+		g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
 
 		firstLevelButtons.setOpaque(false);
 		firstLevelButtons.setLayout(new BoxLayout(firstLevelButtons, BoxLayout.Y_AXIS));
