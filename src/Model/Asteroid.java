@@ -4,12 +4,16 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class Asteroid implements Collidable{
+public class Asteroid implements Collidable, ImageObserver{
 	/**
 	 * 
 	 */
@@ -24,6 +28,7 @@ public class Asteroid implements Collidable{
 	private JPanel game;
 	private ArrayList<Asteroid> field;
 	private Color myC = Color.WHITE;
+	private BufferedImage rock;
 	private Player myPlayer;
 	public Asteroid()
 	{
@@ -83,8 +88,10 @@ public class Asteroid implements Collidable{
 	 */
 	public void paint(Graphics g) {
 		//super.paint(g);
+		rock = ImageIO.read(new File("Images/asteroid.png"));
 		g.setColor(myC);
 		g.fillOval(this.getX(),this.getY(), astSize, astSize);
+		g.drawImage(rock, getX(), getY(), astSize, astSize, this);
 	}
 	/**
 	 * @return the game
