@@ -32,7 +32,7 @@ import javax.swing.JPanel;
 public class MainMenu extends JPanel implements KeyListener {
 
 	/**
-	 *
+	 * Class wide variables
 	 */
 	private Game game;
 	private static final long serialVersionUID = 1L;
@@ -44,14 +44,20 @@ public class MainMenu extends JPanel implements KeyListener {
 	private int userConfirmationInput;
 	private GridBagConstraints c;
 
-//	public static void main(String[] args) throws IOException {
-//		new MainMenu();
-//	}
-
+	/**
+	 * Constructor that iniitializes the components
+	 * 
+	 * @throws IOException
+	 */
 	public MainMenu() throws IOException {
 		initComponents();
 	}
 
+	/**
+	 * method that organizes the creation of the numerous components utilized
+	 * 
+	 * @throws IOException
+	 */
 	private void initComponents() throws IOException {
 		buildFrame();
 		buildLevel();
@@ -65,6 +71,12 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	}
 
+	/**
+	 * Creates the main menu for the user. Contains the options to start, view
+	 * controls, select level, and quit,
+	 * 
+	 * @throws IOException
+	 */
 	private void createLayout() throws IOException {
 		c = new GridBagConstraints();
 		BufferedImage image = ImageIO.read(new File("Images/MainMenu.jpg"));
@@ -101,6 +113,9 @@ public class MainMenu extends JPanel implements KeyListener {
 		mainMenuPanel.repaint();
 	}
 
+	/**
+	 * initializes the buttons used in the main menu screen
+	 */
 	private void initJButtons() {
 		start = new JButton("Start");
 		start.setFont(font);
@@ -136,6 +151,10 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	}
 
+	/**
+	 * builds the frame for the application to display and hold content for the
+	 * application
+	 */
 	private void buildFrame() {
 		frame = new JFrame("Asteroid Dodger");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -143,6 +162,12 @@ public class MainMenu extends JPanel implements KeyListener {
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
+	/**
+	 * initializes two panels. one that holds the other panel, and one that has
+	 * the content for the first game, such as the in-game background, a pause
+	 * menu, and the ability to hold other objects utilized elsewhere such as
+	 * the asteroids or the space ship
+	 */
 	private void buildLevel() {
 		Image img = Toolkit.getDefaultToolkit().getImage("SpaceBackground.gif");
 
@@ -220,7 +245,11 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	}
 
-	private void buildControlsScreen() throws IOException{
+	/**
+	 * builds the controls screen to be displayed. holds a jpanel that holds a
+	 * jpanel which contains jlabels that describe the controls for the user
+	 */
+	private void buildControlsScreen() throws IOException {
 		BufferedImage ctrl = ImageIO.read(new File("Images/controlScreen.jpg"));
 		controlsScreen = new JPanel(new GridBagLayout()) {
 
@@ -231,9 +260,9 @@ public class MainMenu extends JPanel implements KeyListener {
 				super.paintComponent(g);
 				g.drawImage(ctrl, 0, 0, getWidth(), getHeight(), this);
 			}
-			
+
 		};
-		
+
 		c = new GridBagConstraints();
 
 		controlsScreenLabels = new JPanel();
@@ -295,11 +324,16 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	}
 
+	/**
+	 * builds a jpanel that holds the level select screen. jpanel holds buttons
+	 * that will become available as a level is completed. this method takes
+	 * care of initializing these buttons and the screen itself
+	 */
 	private void buildSelectLevelScreen() throws IOException {
 		BufferedImage lvlSlt = ImageIO.read(new File("Images/levelSelect.jpg"));
-		
+
 		levelSelectScreen = new JPanel(new GridBagLayout()) {
-			
+
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -307,9 +341,9 @@ public class MainMenu extends JPanel implements KeyListener {
 				super.paintComponent(g);
 				g.drawImage(lvlSlt, 0, 0, getWidth(), getHeight(), this);
 			}
-			
+
 		};
-				
+
 		c = new GridBagConstraints();
 
 		levelSelectScreenButtons = new JPanel();
@@ -321,13 +355,12 @@ public class MainMenu extends JPanel implements KeyListener {
 		levelSelectScreen.setBackground(Color.darkGray);
 		levelSelectScreenButtons.setOpaque(false);
 		levelSelectScreenButtons.setLayout(new BoxLayout(levelSelectScreenButtons, BoxLayout.Y_AXIS));
-		// Use Start Button for Level One
-		// Use Return to Main Menu Button
-		// need logic to find if a level has been completed or not
-		// need a way to state that a level has been completed in order to
-		// implement
-		// setEnable(true) when the previous level has been cleared.
-		// second/third level need actionListeners
+		// wherever paint method asteroid called
+		// make counter variable
+		// if(field.size()>0){
+		// field.remove(field.get(0));
+		// a=0;}
+		// is arrayList 0
 
 		firstLevel.setFont(font);
 		secondLevel.setFont(font);
@@ -372,6 +405,13 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	}
 
+	/**
+	 * asks the user confirmation, if yes, this will display the first level
+	 * screen, making the other screens invisible ActionEvent added to the start
+	 * and first level buttons
+	 * 
+	 * @param evt
+	 */
 	private void startButtonEvent(ActionEvent evt) {
 		userConfirmationInput = JOptionPane.showConfirmDialog(null, "Select desired option", "Are you certain?",
 				JOptionPane.YES_NO_CANCEL_OPTION);
@@ -385,12 +425,26 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	}
 
+	/**
+	 * returns the user to the main menu from inside the level through the
+	 * button that implements this method. makes the main menu panel visible and
+	 * the other panels/screens invisible
+	 * 
+	 * @param evt
+	 */
 	private void mainMenuReturnFromInsideLevel(ActionEvent evt) {
 		firstLevelButtons.setVisible(false);
 		firstLevelScreen.setVisible(false);
 		mainMenuPanel.setVisible(true);
 	}
 
+	/**
+	 * allows the user to quit the current level and returns them to the level
+	 * select screen. sets the first level screen and it's elements' visibility
+	 * to false and makes the level screen visible
+	 * 
+	 * @param e
+	 */
 	private void quitLevelReturnToLevelSelect(ActionEvent e) {
 		firstLevelButtons.setVisible(false);
 		firstLevelScreen.setVisible(false);
@@ -398,6 +452,13 @@ public class MainMenu extends JPanel implements KeyListener {
 		frame.getContentPane().add(levelSelectScreen);
 	}
 
+	/**
+	 * displays the level select screen, making other screens (Jpanels)'s
+	 * visibility to false when the button that calls this method is given an
+	 * affirmative response
+	 * 
+	 * @param evt
+	 */
 	private void selectLevelButtonEvent(ActionEvent evt) {
 		userConfirmationInput = JOptionPane.showConfirmDialog(null, "Select desired option", "Are you certain?",
 				JOptionPane.YES_NO_CANCEL_OPTION);
@@ -409,17 +470,37 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	}
 
+	/**
+	 * returns the user to the main menu screen from the controls by setting
+	 * controls jpanel's visibility to false and the main menu's to true.
+	 * 
+	 * @param evt
+	 */
 	private void mainMenuReturnFromControls(ActionEvent evt) {
 		controlsScreen.setVisible(false);
 		mainMenuPanel.setVisible(true);
 	}
 
+	/**
+	 * returns the user to the main menu jpanel from the level select menu
+	 * through the button this is implemented in level select. changes both
+	 * jpanels' visibility accordingly
+	 * 
+	 * @param evt
+	 */
 	private void mainMenuReturnFromLevelSelect(ActionEvent evt) {
 		levelSelectScreen.setVisible(false);
 		mainMenuPanel.setVisible(true);
 
 	}
 
+	/**
+	 * when given affirmative input, the method takes the user to the view
+	 * controls jpanel/screen by turning off the visibility for the main menu
+	 * panel and making the controls jpanel visible
+	 * 
+	 * @param evt
+	 */
 	private void viewControlsButtonEvent(ActionEvent evt) {
 		userConfirmationInput = JOptionPane.showConfirmDialog(null, "Select desired option", "Are you certain?",
 				JOptionPane.YES_NO_CANCEL_OPTION);
@@ -430,6 +511,12 @@ public class MainMenu extends JPanel implements KeyListener {
 		}
 	}
 
+	/**
+	 * button "quit" inside the main menu panel calls this method that when
+	 * given affirmative input, terminates the program.
+	 * 
+	 * @param evt
+	 */
 	private void quitButtonEvent(ActionEvent evt) {
 
 		userConfirmationInput = JOptionPane.showConfirmDialog(null, "You will be exited.", "Exit?",
@@ -440,12 +527,21 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	}
 
+	/**
+	 * method necessary to implement even if not utilized due to using KeyEvent
+	 * Listener
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * method that displays the menu inside a level. if the menu isn't visiblee,
+	 * the timer will stop and the menu will become visible upon the user
+	 * hitting the P key. Else, if the menu was visible, the opposite applies.
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (firstLevelButtons.isVisible() == false && e.getKeyCode() == KeyEvent.VK_P) {
@@ -463,6 +559,10 @@ public class MainMenu extends JPanel implements KeyListener {
 
 	}
 
+	/**
+	 * method necessary to implement even if not utilized due to using KeyEvent
+	 * Listener
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 
