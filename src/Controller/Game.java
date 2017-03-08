@@ -12,28 +12,34 @@ import java.util.ArrayList;
 /**
  * Created by Patricki on 2/24/2017.
  */
-public class Game {
+public class Game extends JPanel{
     
     private Player player;
     private Asteroid asteroid;
     private ArrayList<Asteroid> asteroids =new ArrayList<>();
     private Asteroid[] asteroidRay;
-    
+    private JPanel mainPanel;
     private MainMenu ui;
 //    private ViewController ui;
     private Timer timer;
     private int levelTime;
+    private int astRem;
+    private int astCount;
     
     
     
     //============================================================================
     
-    public Game() throws IOException {
+    public Game()
+    {
+    	
+    }
+    
+    public Game(JPanel isOn, int Diff,int PlayTime,MainMenu myMenu) throws IOException {
         
-        ui = new MainMenu();
+        ui = myMenu;
         player = new Player();
-        asteroidRay = new Asteroid[3];
-        
+        this.setSize(isOn.getWidth(), isOn.getHeight());
         //set ship position
         //should start ship in middle of frame
         player.getShip().setX((ui.getFrame().getWidth() / 2));
@@ -56,19 +62,21 @@ public class Game {
         //TODO randominzing method for asteroid starting placement
         int x = 100;
         int y = 100;
-        for(int i = 0; i < 5; i++) {
-            asteroids.add(new Asteroid(80,x,y, 20, 25, asteroids, ui.getFirstLevel(), player));
-            x+=100;
-            y+=100;
+        for(int i = 0; i < Diff; i++) {
+            asteroids.add(new Asteroid(80,x,y, 20, 25, asteroids, this, player));
+            x+=90;
+            y+=90;
         }
         
         //TODO timer for movement
         //the way its set up right now it will only have a timer on the first level
         timer = new Timer(1000/60, (ActionListener) e -> {
             mainLoop();
+            //Thread.sleep(20);
 //            ui.getFirstLevel().repaint();
         });
-    
+        
+        astRem = PlayTime/Diff;
     }
     
     public void mainLoop() {
@@ -79,7 +87,7 @@ public class Game {
         boolean LevelBeat = checkLevelBeat();
         
         //stops timer if level beat
-        if (LevelBeat != false) {
+        if (LevelBeat) {
             timer.stop();
         }
     }
@@ -99,8 +107,8 @@ public class Game {
     
     private boolean checkLevelBeat() {
         
-        // checks to see if the player survived the timeer or if the ships health reaches 0
-        if (levelTime == 0 || player.getShip().getHealth() == 0) {
+        // checks to see if the player survived the timer or if the ships health reaches 0 or if all asteroids are gone
+        if (levelTime == 0 || player.getShip().getHealth() == 0||asteroids.size()==0) {
             return true;
         }
         return false;
@@ -115,9 +123,31 @@ public class Game {
     
     private void asteroidMotion() {
         //TODO create method for asteroid motion
+    	for(Asteroid rock: asteroids)
+    	{
+    		rock.move();
+    	}
+    	this.repaint();
+    	astCount++;
+    	if(astCount == astRem)
+    	{
+    		if(asteroids.size()>0)
+			{
+				asteroids.remove(field.get(0));
+				astCount=0;
+			}
+    	}
     }
     
-    
+    public void paint(Graphics g)
+    {
+    	for(Asteroid rock: asteroids)
+    	{
+    		rock.paint(g);
+    	}
+    	player.paint(g);
+    	
+    }
     
     
     public Player getPlayer() {
