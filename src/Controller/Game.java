@@ -66,7 +66,7 @@ public class Game {
         //the way its set up right now it will only have a timer on the first level
         timer = new Timer(1000/60, (ActionListener) e -> {
             mainLoop();
-            ui.getFirstLevel().repaint();
+//            ui.getFirstLevel().repaint();
         });
     
     }
