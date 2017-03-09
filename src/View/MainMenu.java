@@ -1,7 +1,5 @@
 package View;
 
-import Controller.Game;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -48,8 +46,9 @@ public class MainMenu extends JPanel implements KeyListener {
 	 * Constructor that iniitializes the components
 	 * 
 	 * @throws IOException
+	 * @throws InterruptedException
 	 */
-	public MainMenu() throws IOException {
+	public MainMenu() throws IOException, InterruptedException {
 		initComponents();
 	}
 
@@ -57,8 +56,9 @@ public class MainMenu extends JPanel implements KeyListener {
 	 * method that organizes the creation of the numerous components utilized
 	 * 
 	 * @throws IOException
+	 * @throws InterruptedException
 	 */
-	private void initComponents() throws IOException {
+	private void initComponents() throws IOException, InterruptedException {
 		buildFrame();
 		buildLevel();
 		buildControlsScreen();
@@ -121,7 +121,12 @@ public class MainMenu extends JPanel implements KeyListener {
 		start.setFont(font);
 		start.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				startButtonEvent(evt);
+				try {
+					startButtonEvent(evt);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		selectLevel = new JButton("Select Level");
@@ -156,6 +161,7 @@ public class MainMenu extends JPanel implements KeyListener {
 	 * application
 	 */
 	private void buildFrame() {
+
 		frame = new JFrame("Asteroid Dodger");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
@@ -167,8 +173,11 @@ public class MainMenu extends JPanel implements KeyListener {
 	 * the content for the first game, such as the in-game background, a pause
 	 * menu, and the ability to hold other objects utilized elsewhere such as
 	 * the asteroids or the space ship
+	 * 
+	 * @throws IOException
+	 * @throws InterruptedException
 	 */
-	private void buildLevel() {
+	private void buildLevel() throws IOException, InterruptedException {
 		Image img = Toolkit.getDefaultToolkit().getImage("SpaceBackground.gif");
 
 		firstLevelScreen = new JPanel(new GridBagLayout()) {
@@ -243,6 +252,9 @@ public class MainMenu extends JPanel implements KeyListener {
 
 		firstLevelButtons.setVisible(false);
 
+		game = new Game(firstLevelScreen, 10, 120, this);
+		firstLevelScreen.add(game);
+
 	}
 
 	/**
@@ -266,7 +278,7 @@ public class MainMenu extends JPanel implements KeyListener {
 		c = new GridBagConstraints();
 
 		controlsScreenLabels = new JPanel();
-		JLabel mainMenuControls = new JLabel("Controls");
+		JLabel mainMenuControls = new JLabel("Controls:");
 		JLabel moveUpwards = new JLabel("To move Up, use the W key.");
 		JLabel moveLeft = new JLabel("To move Left, use the A key.");
 		JLabel moveDownwards = new JLabel("To move Down, use the S key.");
@@ -375,7 +387,12 @@ public class MainMenu extends JPanel implements KeyListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				startButtonEvent(e);
+				try {
+					startButtonEvent(e);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 
 			}
 		});
@@ -411,14 +428,16 @@ public class MainMenu extends JPanel implements KeyListener {
 	 * and first level buttons
 	 * 
 	 * @param evt
+	 * @throws InterruptedException
 	 */
-	private void startButtonEvent(ActionEvent evt) {
+	private void startButtonEvent(ActionEvent evt) throws InterruptedException {
 		userConfirmationInput = JOptionPane.showConfirmDialog(null, "Select desired option", "Are you certain?",
 				JOptionPane.YES_NO_CANCEL_OPTION);
 		if (userConfirmationInput == 0) {
 			mainMenuPanel.setVisible(false);
 			levelSelectScreen.setVisible(false);
 			firstLevelScreen.setVisible(true);
+			game.GameStart();
 			frame.getContentPane().add(firstLevelScreen);
 
 		}
