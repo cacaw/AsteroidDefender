@@ -1,9 +1,4 @@
 package Controller;
-
-import Model.Asteroid;
-import Model.Player;
-import View.MainMenu;
-
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.io.IOException;
